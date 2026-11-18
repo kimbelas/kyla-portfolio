@@ -34,7 +34,7 @@ test('phone shows wordmark, play and menu buttons only', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('link', { name: 'Kyla Belas' })).toBeVisible()
   await expect(
-    page.getByRole('link', { name: /Play self introduction/ }),
+    page.getByRole('link', { name: /Hear me · 1:42, play self introduction/ }),
   ).toBeVisible()
   await expect(page.locator('[data-menu-toggle]')).toBeVisible()
   await expect(page.getByRole('navigation', { name: 'Main' })).toBeHidden()
