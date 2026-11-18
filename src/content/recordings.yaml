@@ -1,0 +1,73 @@
+- id: self-introduction
+  title: Self introduction
+  group: Introduction
+  file: self-introduction.mp3
+  durationSec: 102
+  featured: true
+  note: Recorded early 2025
+- id: 2a-customer-call
+  title: 2A Construction · Customer call
+  group: Construction
+  file: 2a-customer-call.mp3
+  durationSec: 530
+  featured: false
+- id: 2a-customer-call-2
+  title: 2A Construction · Customer call 2
+  group: Construction
+  file: 2a-customer-call-2.mp3
+  durationSec: 589
+  featured: false
+- id: 2a-client-call
+  title: 2A Construction · Client call
+  group: Construction
+  file: 2a-client-call.mp3
+  durationSec: 631
+  featured: false
+- id: appointment-setting-angela
+  title: Appointment setting · Angela
+  group: Appointment setting
+  file: appointment-setting-angela.mp3
+  durationSec: 143
+  featured: false
+- id: ann-call
+  title: Sample call · Ann
+  group: Appointment setting
+  file: ann-call.mp3
+  durationSec: 187
+  featured: false
+- id: cold-calling
+  title: Cold calling
+  group: Cold calling
+  file: cold-calling.mp3
+  durationSec: 270
+  featured: false
+- id: cold-calling-12
+  title: Cold calling 12
+  group: Cold calling
+  file: cold-calling-12.mp3
+  durationSec: 278
+  featured: false
+- id: gatekeeper-breakthrough
+  title: Phase 1 · Gatekeeper breakthrough
+  group: Cold calling
+  file: gatekeeper-breakthrough.mp3
+  durationSec: 63
+  featured: false
+- id: owner-connection-script
+  title: Phase 2 · Owner connection script
+  group: Cold calling
+  file: owner-connection-script.mp3
+  durationSec: 68
+  featured: false
+- id: agent-outreach-call
+  title: Agent outreach call
+  group: Real estate
+  file: agent-outreach-call.mp3
+  durationSec: 280
+  featured: false
+- id: seller-script
+  title: Seller script
+  group: Real estate
+  file: seller-script.mp3
+  durationSec: 172
+  featured: false

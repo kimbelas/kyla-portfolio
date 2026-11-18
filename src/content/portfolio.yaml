@@ -1,0 +1,237 @@
+- id: kitchen-remodel-promo
+  title: Kitchen Remodeling Promotion
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/kitchen-remodel-promo.webp
+  alt: Social media promotion graphic for a kitchen remodeling service
+  homeOrder: 2
+- id: beauty-before-after
+  title: Beauty Service Before & After
+  category: marketing
+  tag: Blossom Waxing
+  image: ../assets/images/marketing/beauty-before-after.webp
+  alt: Before and after social media graphic for a waxing and beauty service
+  homeOrder: 4
+- id: home-addition
+  title: Home Addition Promotion
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/home-addition.webp
+  alt: Social media promotion graphic for a home addition service
+  homeOrder: 7
+- id: waxing-aftercare
+  title: Waxing Aftercare Guide
+  category: marketing
+  tag: Blossom Waxing
+  image: ../assets/images/marketing/waxing-aftercare.webp
+  alt: Waxing aftercare guide graphic with care tips for clients
+- id: construction-post
+  title: Construction Marketing Post
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/construction-post.webp
+  alt: Social media marketing post for a construction and remodeling company
+- id: recruitment-post
+  title: Recruitment Social Post
+  category: marketing
+  tag: Blossom Waxing
+  image: ../assets/images/marketing/recruitment-post.webp
+  alt: Recruitment social media post inviting applicants to join a waxing studio
+- id: auto-sales
+  title: Automotive Sales Promotion
+  category: marketing
+  tag: Social media ad
+  image: ../assets/images/marketing/auto-sales.webp
+  alt: Social media advertisement promoting automotive sales
+- id: equipment-rental
+  title: Equipment Rental Promotion
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/equipment-rental.webp
+  alt: Social media promotion graphic for an equipment rental service
+- id: back-to-school
+  title: Back to School Special Promo
+  category: marketing
+  tag: Blossom Waxing
+  image: ../assets/images/marketing/back-to-school.webp
+  alt: Back to school special promotion graphic for a waxing studio
+- id: welcome-back-offer
+  title: Welcome Back Offer
+  category: marketing
+  tag: Blossom Waxing
+  image: ../assets/images/marketing/welcome-back-offer.webp
+  alt: Welcome back offer promotion graphic for a waxing studio
+- id: home-improvement-infographic
+  title: Home Improvement Infographic
+  category: marketing
+  tag: Infographic
+  image: ../assets/images/marketing/home-improvement-infographic.webp
+  alt: Home improvement infographic designed for social media
+- id: holiday-safety
+  title: Holiday Safety Infographic
+  category: marketing
+  tag: Infographic
+  image: ../assets/images/marketing/holiday-safety.webp
+  alt: Holiday safety infographic designed for social media
+- id: youtube-thumbnail
+  title: YouTube Thumbnail
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/youtube-thumbnail.webp
+  alt: YouTube thumbnail design for a remodeling company video
+- id: price-guide
+  title: Remodeling Price Guide
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/price-guide.webp
+  alt: Remodeling price guide graphic for social media
+- id: ideal-home-steps
+  title: Get Your Ideal Home
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/ideal-home-steps.webp
+  alt: Graphic outlining the steps to get your ideal home with a remodeler
+- id: kitchen-remodel-questions
+  title: Kitchen Remodeling Questions
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/kitchen-remodel-questions.webp
+  alt: Graphic listing questions to ask before a kitchen remodel
+- id: bathroom-tips
+  title: Small Bathroom Tips
+  category: marketing
+  tag: Brucksch & Sons
+  image: ../assets/images/marketing/bathroom-tips.webp
+  alt: Small bathroom tips graphic designed for social media
+- id: cash-for-cars
+  title: Cash for Cars
+  category: marketing
+  tag: Social media ad
+  image: ../assets/images/marketing/cash-for-cars.webp
+  alt: Cash for cars social media advertisement
+- id: penny-stock
+  title: Daily Penny Stock
+  category: marketing
+  tag: Social media ad
+  image: ../assets/images/marketing/penny-stock.webp
+  alt: Daily penny stock social media advertisement
+- id: trading-lessons
+  title: Learn How to Start Trading
+  category: marketing
+  tag: Social media ad
+  image: ../assets/images/marketing/trading-lessons.webp
+  alt: Social media advertisement for lessons on how to start trading
+- id: remodel-perspective
+  title: Remodeling Perspective
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/remodel-perspective.webp
+  alt: Perspective drawing of a proposed remodeling project for 2A Construction
+  homeOrder: 3
+- id: seattle-plan
+  title: Seattle Remodeling Plan
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/seattle-plan.webp
+  alt: Remodeling floor plan for a Seattle project prepared for 2A Construction
+  homeOrder: 6
+- id: annotated-layout
+  title: Proposed Layout and Annotations
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/annotated-layout.webp
+  alt: Proposed layout with annotations for a 2A Construction remodel
+- id: remodel-floor-plan
+  title: Remodeling Floor Plan
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/remodel-floor-plan.webp
+  alt: Remodeling floor plan drawing for a 2A Construction project
+- id: vanity
+  title: Custom Vanity Design
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/vanity.webp
+  alt: Custom vanity design drawing for a bathroom remodel
+- id: kitchen-cabinet
+  title: Custom Kitchen Cabinet Design
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/kitchen-cabinet.webp
+  alt: Custom kitchen cabinet design drawing for a remodel
+- id: hall-bathroom
+  title: Hall Bathroom Project
+  category: construction
+  tag: 2A Construction
+  image: ../assets/images/construction/hall-bathroom.webp
+  alt: Hall bathroom project drawing for a 2A Construction remodel
+- id: first-month-record
+  title: First-Month Business Record
+  category: growth
+  tag: CRM dashboard · July 2025
+  image: ../assets/images/construction/first-month-record.webp
+  alt: CRM dashboard screenshot of the first month of business records at 2A Construction
+- id: first-year-record
+  title: First-Year Business Record
+  category: growth
+  tag: CRM dashboard · July 2026
+  image: ../assets/images/construction/first-year-record.webp
+  alt: CRM dashboard screenshot of the first year of business records at 2A Construction
+  homeOrder: 8
+- id: primary-bedroom
+  title: Primary Bedroom Visualization
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/primary-bedroom.webp
+  alt: Three-dimensional render of a primary bedroom interior
+  homeOrder: 1
+- id: kitchen-01
+  title: Kitchen Visualization 01
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/kitchen-01.webp
+  alt: Three-dimensional render of a kitchen interior, first option
+  homeOrder: 5
+- id: living
+  title: Living Room Visualization
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/living.webp
+  alt: Three-dimensional render of a living room interior
+  homeOrder: 9
+- id: bathroom-01
+  title: Bathroom Visualization 01
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/bathroom-01.webp
+  alt: Three-dimensional render of a bathroom interior, first option
+- id: dining
+  title: Dining Area Visualization
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/dining.webp
+  alt: Three-dimensional render of a dining area interior
+- id: kitchen-02
+  title: Kitchen Visualization 02
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/kitchen-02.webp
+  alt: Three-dimensional render of a kitchen interior, second option
+- id: bedroom
+  title: Bedroom Visualization
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/bedroom.webp
+  alt: Three-dimensional render of a bedroom interior
+- id: kitchen-revised
+  title: Revised Kitchen Design
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/kitchen-revised.webp
+  alt: Three-dimensional render of a revised kitchen design
+- id: bathroom-02
+  title: Bathroom Visualization 02
+  category: architecture
+  tag: 3D render
+  image: ../assets/images/architecture/bathroom-02.webp
+  alt: Three-dimensional render of a bathroom interior, second option

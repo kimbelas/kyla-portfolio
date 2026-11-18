@@ -1,0 +1,48 @@
+- id: construction
+  title: Construction Operations
+  summary: Remodeling and construction projects run from first inquiry through completion.
+  points:
+    - Estimates, scopes of work, contracts and invoices
+    - Subcontractor, vendor and supplier coordination
+    - Schedules, permits, inspections and material procurement
+    - Keeping projects on track and within budget
+- id: architecture
+  title: Architecture & Design
+  summary: A design eye that reads plans and turns ideas into drawings and renders.
+  points:
+    - Floor plans, layouts and annotated proposals
+    - Custom cabinetry and vanity design
+    - 3D interior visualization in SketchUp, Lumion, V-Ray and D5
+    - Reviewing technical plans with project managers
+- id: executive
+  title: Executive Assistance
+  summary: The CEO’s right hand for priorities, calendars and communication.
+  points:
+    - Executive and project calendars, meetings and site visits
+    - Screening communications and managing correspondence
+    - 'HR support: job postings, onboarding, team coordination'
+    - Training and supporting junior assistants
+- id: operations
+  title: Business Operations
+  summary: Systems that keep a growing company organised and measurable.
+  points:
+    - CRM systems, tracking sheets, SOPs and KPI dashboards
+    - Billing and payments in GoHighLevel and QuickBooks
+    - Automation tools that streamline workflow
+    - Financial tracking and administrative operations
+- id: sales
+  title: Sales & Lead Generation
+  summary: Calls, follow-ups and negotiations that turn leads into closed deals.
+  points:
+    - Cold calling, appointment setting and lead qualification
+    - SMS campaigns and consistent prospect follow-up
+    - Estimates, sales calls and deal closings
+    - Real estate agent outreach and creative financing
+- id: marketing
+  title: Marketing & Social Media
+  summary: Content that reflects the brand and reaches the right audience.
+  points:
+    - Social media content, ads and infographics
+    - Email marketing campaigns and newsletters
+    - Ad scripts, briefs and creative review
+    - Competitive research and audience targeting

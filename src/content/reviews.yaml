@@ -1,0 +1,82 @@
+- id: sanjeshni
+  title: Sanjeshni Devi · 2A Construction
+  image: ../assets/images/reviews/google-sanjeshni.webp
+  source: google
+  quote: Excellent Service! We had a great experience with 2A Construction! The team did an excellent job, completed the project on time, and maintained great communication throughout the entire process. A special thank you to Kayla, who was our main point of contact from beginning to end. She was always responsive, helpful, and kept us updated every step of the way. We’re very happy with the results and would definitely recommend 2A Construction!
+  name: Sanjeshni Devi
+  context: 2A Construction client · 5-star review
+  stars: 5
+- id: tracy
+  title: Tracy Scuteri · 2A Construction
+  image: ../assets/images/reviews/google-tracy.webp
+  source: google
+  quote: I had the exterior of my home painted to include the trim, gutters and door stained. The job was done efficiently and professionally. I made a couple changes mid-way and they adapted nicely. Art and Kyla are a pleasure to work with.
+  name: Tracy Scuteri
+  context: 2A Construction client · 5-star review
+  stars: 5
+  home: feature
+- id: upwork-appointment-setter
+  title: Upwork · Appointment Setter, 4.6 stars
+  image: ../assets/images/reviews/upwork-appointment-setter.webp
+  source: upwork
+- id: client-2
+  title: Client Feedback 2
+  image: ../assets/images/reviews/client-2.webp
+  source: client
+  quote: You are 1000% amazing. Best VA 🔥🔥🔥 Really appreciate, you are best 😊
+  name: Client
+  context: Direct message
+- id: client-3
+  title: Client Feedback 3
+  image: ../assets/images/reviews/client-3.webp
+  source: client
+  quote: Kyla you have amazing very beautiful voice 🔥🔥🔥
+  name: Client
+  context: Direct message
+- id: client-4
+  title: Client Feedback 4
+  image: ../assets/images/reviews/client-4.webp
+  source: client
+  quote: Me either greatly appreciate 🔥🔥🔥🔥 You are top assistant 😊
+  name: Client
+  context: Direct message
+- id: client-6
+  title: Client Feedback 6
+  image: ../assets/images/reviews/client-6.webp
+  source: client
+  quote: YOU CRUSHED THESE SCRIPTS!! only had to make very minor changes. Love it!
+  name: Agency lead
+  context: Ad script feedback · Slack
+  home: card
+- id: customer-1
+  title: Customer Feedback 1
+  image: ../assets/images/reviews/customer-1.webp
+  source: customer
+  quote: Thank you for everything. You have been amazing to work with.
+  name: Mayra J.
+  context: 2A Construction customer
+  home: card
+- id: customer-2
+  title: Customer Feedback 2
+  image: ../assets/images/reviews/customer-2.webp
+  source: customer
+- id: customer-3
+  title: Customer Feedback 3
+  image: ../assets/images/reviews/customer-3.webp
+  source: customer
+  quote: You have been doing a great job so far so don’t worry about it. Have a great fantastic blessed weekend.
+  name: Josie A.
+  context: 2A Construction customer
+  home: card
+- id: customer-4
+  title: Customer Feedback 4
+  image: ../assets/images/reviews/customer-4.webp
+  source: customer
+- id: customer-5
+  title: Customer Feedback 5
+  image: ../assets/images/reviews/customer-5.webp
+  source: customer
+- id: customer-6
+  title: Customer Feedback 6
+  image: ../assets/images/reviews/customer-6.webp
+  source: customer

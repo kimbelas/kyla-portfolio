@@ -1,0 +1,159 @@
+- id: kyla
+  name: Kyla Belas
+  firstName: Kyla
+  title: Executive Virtual Assistant · Junior Architect · Project Manager
+  location:
+    locality: Pampanga
+    region: Pampanga
+    country: PH
+  email: kylabelasss@gmail.com
+  eyebrow: Architecture-trained · Operations-minded
+  headline:
+    lead: I keep projects, people & pipelines
+    emphasis: moving.
+  rotating:
+    - Construction Operations
+    - Project Management
+    - Executive Assistance
+    - Sales & Lead Generation
+    - Marketing & Social Media
+    - Business Operations
+  intro: BS Architecture graduate with 6+ years across construction, real estate, sales and marketing. As the CEO’s right hand at 2A Construction LLC, I run daily operations and carry remodeling projects from first inquiry to completion.
+  badges:
+    - label: BS Architecture
+      sub: Holy Angel University
+    - label: GoHighLevel
+      sub: Expert level
+  education:
+    degree: Bachelor of Science in Architecture
+    school: Holy Angel University
+    years: 2020 - 2025
+  about:
+    heading: From blueprints to business operations
+    paragraphs:
+      - I am a detail-oriented virtual assistant passionate about my work and committed to continuous learning. With a determined mindset, I thrive as both a reliable team member and an effective leader. I take initiative, listen actively, and excel in high-pressure situations, which makes me adept at conflict resolution.
+      - My degree in Architecture gave me a skill set that translates directly into operations. Attention to detail, cultivated through design and project planning, lets me manage tasks with precision and creativity. I understand technical project requirements, review plans, and bring practical solutions to operational challenges.
+      - Today I manage multiple remodeling and construction projects, streamline workflows, and make decisions that support business growth and efficiency. Challenges are what keep me going.
+  pullQuote: Challenges are what keep me going.
+  journey:
+    - year: '2014'
+      text: Started in direct sales, negotiating deals and selling properties locally.
+    - year: '2018'
+      text: Sales & customer service at iQor, closing 3-5 sales a day.
+    - year: '2020'
+      text: Began architecture studies and real estate virtual assistance in California.
+    - year: '2023'
+      text: Executive VA and creative ad specialist for Mortske Media.
+    - year: '2024'
+      text: Became the CEO’s right hand at Sharks Capital and 2A Construction LLC.
+    - year: '2025'
+      text: Graduated BS Architecture and returned to 2A Construction as executive VA and project manager.
+  stats:
+    - value: 6+
+      label: years across sales, real estate, construction and marketing
+    - value: 10.29%
+      label: conversion rate at 2A, up from 4.81%
+    - value: 5-12
+      label: qualified leads a day at Orange Grove Properties
+    - value: 20%
+      label: minimum profit on every direct sale, 2014-2018
+  niches:
+    - Executive Virtual Assistant
+    - Project Coordinator
+    - Project Manager
+    - Cold Calling
+    - Appointment Setter
+    - Lead Generation
+    - Acquisitions
+    - Real Estate VA
+    - Creative Ad Specialist
+    - Social Media Manager
+    - Email Marketing
+    - Content Creation & Graphic Design
+    - CRM Management
+    - Estimating
+    - Admin & Customer Support
+    - Architectural Design & 3D Visualization
+  skills:
+    - Architectural Planning
+    - Project Coordination
+    - CRM Management
+    - Lead Generation
+    - Calendar Management
+    - Campaign Management
+    - Sales Marketing
+    - Effective Phone Communication
+    - Social Media Management
+    - Content Creation & Graphic Design
+    - Email Marketing
+    - Audience Segmentation & Targeting
+    - Research & Analysis
+    - Admin & Customer Support
+    - Office Management
+    - Problem Solving
+  tools:
+    - group: CRM & sales
+      items:
+        - name: GoHighLevel
+          note: Expert
+        - name: HubSpot
+        - name: Salesforce
+        - name: REIreply
+        - name: Launch Control
+        - name: BatchLeads
+        - name: PropStream
+        - name: REITakeOff
+        - name: RingCentral
+        - name: Compass
+    - group: Operations & projects
+      items:
+        - name: Notion
+        - name: ClickUp
+        - name: Asana
+        - name: Monday.com
+        - name: QuickBooks
+    - group: Design & architecture
+      items:
+        - name: AutoCAD
+        - name: Revit
+        - name: SketchUp
+        - name: Lumion
+        - name: V-Ray
+        - name: D5 Render
+    - group: Marketing & creative
+      items:
+        - name: Canva
+        - name: Photoshop
+        - name: MailChimp
+  recordingsIntro:
+    heading: Hear me on the call
+    intro: Real calls with homeowners, sellers, agents and gatekeepers. Press play on any recording.
+  growth:
+    heading: One year of operations at 2A Construction
+    note: CRM dashboard, July 7-31 in 2025 (first month) and 2026 (one year later). All pipelines.
+  moreWork:
+    - label: Video work
+      sub: Reels, promo videos and recap edits
+      href: https://drive.google.com/drive/folders/1utqA7885ORD8ps7G_3IyTmVa2sGuiTw_
+    - label: Social media library
+      sub: Image samples and campaign graphics
+      href: https://drive.google.com/drive/folders/1sZ7SAZOcY7lgi6DTcj5MVAYCYwSncIDW
+    - label: Full Drive portfolio
+      sub: Everything, in its original folders
+      href: https://drive.google.com/drive/folders/1HBR_zivQPaMLyt6rmjuvce2AvqeIVuwl?usp=sharing
+  contact:
+    heading: Let’s build something that runs smoothly
+    text: For roles, collaborations or portfolio requests, send a note. I reply from kylabelasss@gmail.com.
+  links:
+    linkedin: https://www.linkedin.com/in/kcbelas
+    upwork: https://www.upwork.com/freelancers/~0192a51c7e5e0976e8?mp_source=share
+    onlinejobs: https://www.onlinejobs.ph/jobseekers/info/1985636
+    drive: https://drive.google.com/drive/folders/1HBR_zivQPaMLyt6rmjuvce2AvqeIVuwl?usp=sharing
+    recordings: https://drive.google.com/drive/folders/1P1dFI5vCiM5kfRlWG6_Zy8m7kxywGWHp
+    videos: https://drive.google.com/drive/folders/1utqA7885ORD8ps7G_3IyTmVa2sGuiTw_
+    socialImages: https://drive.google.com/drive/folders/1sZ7SAZOcY7lgi6DTcj5MVAYCYwSncIDW
+    reviews: https://drive.google.com/drive/folders/1HTb2cGZqg7IjpWZVCG7DjqE4SfpLuZPV
+  upwork:
+    job: Appointment Setter
+    rating: 4.6
+    period: Jun 29 - Jul 9, 2023

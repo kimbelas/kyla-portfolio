@@ -1,0 +1,21 @@
+- id: won-revenue
+  label: Won revenue
+  before: 28.91
+  after: 253.81
+  prefix: $
+  suffix: K
+  decimals: 2
+- id: conversion-rate
+  label: Conversion rate
+  before: 4.81
+  after: 10.29
+  prefix: ''
+  suffix: '%'
+  decimals: 2
+- id: pipeline-value
+  label: Pipeline value
+  before: 532.91
+  after: 636.01
+  prefix: $
+  suffix: K
+  decimals: 2

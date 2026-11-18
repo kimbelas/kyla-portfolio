@@ -1,0 +1,20 @@
+- id: what-does-kyla-do
+  question: What does Kyla do?
+  answer: Kyla is an executive virtual assistant, junior architect and project manager. She runs daily operations for 2A Construction LLC and carries remodeling projects from first inquiry to completion.
+  approved: false
+- id: industries
+  question: Which industries has Kyla worked in?
+  answer: Construction, real estate, insurance, video advertising, BPO sales and social media marketing, across more than 6 years.
+  approved: false
+- id: tools
+  question: Which tools does Kyla use?
+  answer: GoHighLevel at expert level, plus HubSpot, Salesforce, Notion, ClickUp, QuickBooks, AutoCAD, SketchUp, Lumion, Canva and Photoshop among others.
+  approved: false
+- id: location
+  question: Where is Kyla based?
+  answer: Kyla is based in Pampanga, Philippines, and works with clients in the United States and England.
+  approved: false
+- id: hire
+  question: How can I hire Kyla?
+  answer: Send a note through the contact form or email kylabelasss@gmail.com. Kyla is also on Upwork, OnlineJobs.ph and LinkedIn.
+  approved: false
