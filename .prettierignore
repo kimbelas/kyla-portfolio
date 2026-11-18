@@ -1,0 +1,9 @@
+dist
+.astro
+legacy
+node_modules
+package-lock.json
+docs/design
+public
+.superpowers
+docs/superpowers
