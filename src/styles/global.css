@@ -92,3 +92,7 @@
     scroll-behavior: auto !important;
   }
 }
+
+html[data-menu-open] {
+  overflow: hidden;
+}

@@ -1,0 +1,113 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import Icon from '../icons/Icon.astro'
+import MenuCard from './MenuCard.astro'
+import { formatDuration, orderRecordings } from '../../lib/collections'
+
+const NAV_ITEMS = [
+  ['01', 'About', 'about'],
+  ['02', 'Expertise', 'expertise'],
+  ['03', 'Calls', 'calls'],
+  ['04', 'Work', 'work'],
+  ['05', 'Experience', 'experience'],
+  ['06', 'Kind words', 'words'],
+] as const
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const featured = orderRecordings(
+  (await getCollection('recordings')).map((r) => r.data),
+)[0]!
+const duration = formatDuration(featured.durationSec)
+const minutes = Math.floor(featured.durationSec / 60)
+const seconds = featured.durationSec % 60
+const spoken = `${minutes} minute${minutes === 1 ? '' : 's'} ${seconds} second${seconds === 1 ? '' : 's'}`
+
+const isHome = Astro.url.pathname === '/'
+const prefix = isHome ? '' : '/'
+const items = NAV_ITEMS.map(([n, label, id]) => ({
+  n,
+  label,
+  href: `${prefix}#${id}`,
+}))
+const ctaHref = `${prefix}#contact`
+---
+
+<div class="pointer-events-none sticky top-0 z-40 px-3 pt-3 min-[641px]:px-6">
+  <header class="pointer-events-auto relative mx-auto flex max-w-[1320px] items-center justify-between gap-2 rounded-full border border-line bg-paper py-[5px] pr-[5px] pl-5 shadow-[0_14px_30px_-20px_rgba(46,35,38,0.45)] min-[641px]:gap-3 min-[641px]:py-1.5 min-[641px]:pr-1.5 min-[641px]:pl-6">
+    <a
+      href={isHome ? '#top' : '/'}
+      class="font-script text-[32px] leading-none whitespace-nowrap text-rose min-[641px]:text-[40px]"
+    >
+      {profile.name}
+    </a>
+    <nav
+      aria-label="Main"
+      data-nav-links
+      class="hidden gap-0.5 text-[13px] min-[1101px]:flex"
+    >
+      {items.map((item) => (
+        <a
+          href={item.href}
+          class="inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 text-ink aria-[current=true]:bg-blush"
+        >
+          <em class="font-display text-rose">{item.n}</em>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <div class="flex items-center gap-1.5">
+      <a
+        href="/#calls"
+        data-play-featured
+        aria-label={`Play self introduction, ${spoken}`}
+        class="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-petal p-1 text-[13px] text-ink"
+      >
+        <span class="grid size-9 place-items-center rounded-full bg-ink text-petal">
+          <Icon name="play" size={14} />
+        </span>
+        <span class="pr-3 max-[640px]:hidden">Hear me · {duration}</span>
+      </a>
+      <a
+        href={ctaHref}
+        class="hidden min-h-11 items-center rounded-full bg-rose px-5 text-[12px] tracking-[0.16em] whitespace-nowrap text-paper uppercase min-[641px]:inline-flex"
+      >
+        Let’s talk
+      </a>
+      <details data-menu class="group min-[1101px]:hidden">
+        <summary
+          data-menu-toggle
+          aria-label="Menu"
+          class="grid size-11 cursor-pointer list-none place-items-center rounded-full bg-ink text-ivory [&::-webkit-details-marker]:hidden"
+        >
+          <span class="group-open:hidden">
+            <Icon name="menu" size={18} />
+          </span>
+          <span class="hidden group-open:block">
+            <Icon name="close" size={18} />
+          </span>
+        </summary>
+        <MenuCard
+          items={items}
+          duration={duration}
+          spoken={spoken}
+          ctaHref={ctaHref}
+          playHref="/#calls"
+          links={profile.links}
+        />
+      </details>
+    </div>
+  </header>
+</div>
+
+<script>
+  import { initMenu } from '../../scripts/menu'
+  import { initActiveSection } from '../../scripts/active-section'
+
+  const menu = document.querySelector<HTMLElement>('[data-menu]')
+  if (menu) initMenu(menu)
+  initActiveSection([
+    ...document.querySelectorAll<HTMLAnchorElement>(
+      '[data-nav-links] a, [data-menu-card] ol a',
+    ),
+  ])
+</script>

@@ -2,6 +2,7 @@
 import type { Meta } from '../lib/seo'
 import Seo from '../components/seo/Seo.astro'
 import JsonLd from '../components/seo/JsonLd.astro'
+import Nav from '../components/nav/Nav.astro'
 import Footer from '../components/Footer.astro'
 import '../styles/global.css'
 
@@ -31,7 +32,7 @@ const { meta, jsonLd = [] } = Astro.props
     >
       Skip to content
     </a>
-    <slot name="nav" />
+    <Nav />
     <main id="main">
       <slot />
     </main>
