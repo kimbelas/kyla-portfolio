@@ -24,6 +24,7 @@ test('desktop shows six numbered links and hides the menu button', async ({
     t.replace(/\s+/g, ''),
   )
   expect(texts).toEqual(LABELS.map((l) => l.replace(/\s+/g, '')))
+  await expect(page.locator('[data-menu-toggle]')).toHaveCount(1)
   await expect(page.locator('[data-menu-toggle]')).toBeHidden()
   await expect(page.getByText('Hear me · 1:42')).toBeVisible()
   await expect(page.getByRole('link', { name: 'Let’s talk' })).toBeVisible()
@@ -37,11 +38,15 @@ test('phone shows wordmark, play and menu buttons only', async ({ page }) => {
     page.getByRole('link', { name: /Hear me · 1:42, play self introduction/ }),
   ).toBeVisible()
   await expect(page.locator('[data-menu-toggle]')).toBeVisible()
-  await expect(page.getByRole('navigation', { name: 'Main' })).toBeHidden()
-  await expect(page.getByText('Hear me · 1:42')).toBeHidden()
-  await expect(
-    page.locator('header').getByRole('link', { name: 'Let’s talk' }),
-  ).toBeHidden()
+  const links = page.locator('[data-nav-links]')
+  await expect(links).toHaveCount(1)
+  await expect(links).toBeHidden()
+  const label = page.getByText('Hear me · 1:42')
+  await expect(label).toHaveCount(1)
+  await expect(label).toBeHidden()
+  const cta = page.locator('header > div > a[href$="#contact"]')
+  await expect(cta).toHaveCount(1)
+  await expect(cta).toBeHidden()
 })
 
 test('open menu lists 6 links, Let’s talk, LinkedIn, Upwork, OnlineJobs.ph', async ({
@@ -84,6 +89,7 @@ test('Escape closes the open menu and returns focus', async ({ page }) => {
   await page.keyboard.press('Escape')
   await expect(toggle).toHaveAttribute('aria-expanded', 'false')
   await expect(toggle).toBeFocused()
+  await expect(page.locator('[data-menu-card]')).toHaveCount(1)
   await expect(page.locator('[data-menu-card]')).toBeHidden()
 })
 
