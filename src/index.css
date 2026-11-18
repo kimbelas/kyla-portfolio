@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+/* Layout concept: an architect's drawing set softened into a personal brand.
+   Ivory paper, blush washes, hairline drafting rules, arched frames, a handwritten signature. */
+@theme {
+  --color-ivory: #fcf7f3;
+  --color-paper: #fffdfb;
+  --color-blush: #f6e4e0;
+  --color-petal: #eecbc8;
+  --color-rose: #c88d93;
+  --color-rose-deep: #94505d;
+  --color-ink: #3b2a2e;
+  --color-muted: #7d666a;
+  --color-line: #ead6d2;
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Jost', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --font-script: 'Pinyon Script', 'Snell Roundhand', 'Brush Script MT', cursive;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--color-petal);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.gutter {
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* Drafting grid used behind the hero and section heads */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgb(200 141 147 / 0.13) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(200 141 147 / 0.13) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.marquee {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
