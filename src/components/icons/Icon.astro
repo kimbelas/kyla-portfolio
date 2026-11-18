@@ -1,0 +1,74 @@
+---
+export type IconName =
+  | 'play'
+  | 'pause'
+  | 'menu'
+  | 'close'
+  | 'arrow-up-right'
+  | 'headphones'
+  | 'mail'
+  | 'copy'
+  | 'check'
+  | 'chevron-left'
+  | 'chevron-right'
+  | 'star'
+
+interface Props {
+  name: IconName
+  size?: number
+  label?: string
+}
+
+const { name, size = 20, label } = Astro.props
+
+const FILLED: IconName[] = ['play', 'pause', 'star']
+const filled = FILLED.includes(name)
+
+const PATHS: Record<IconName, string[]> = {
+  play: [
+    'M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z',
+  ],
+  pause: ['M7 4h3.5v16H7z', 'M13.5 4H17v16h-3.5z'],
+  menu: ['M4 7h16', 'M4 12h16', 'M4 17h16'],
+  close: ['M6 6l12 12', 'M18 6 6 18'],
+  'arrow-up-right': ['M7 17 17 7', 'M8 7h9v9'],
+  headphones: [
+    'M4 15v-3a8 8 0 0 1 16 0v3',
+    'M4 15a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2Z',
+    'M20 15a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2Z',
+  ],
+  mail: [
+    'M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z',
+    'm3 7.5 9 6 9-6',
+  ],
+  copy: [
+    'M9 9h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1Z',
+    'M16 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3',
+  ],
+  check: ['m5 12.5 4.5 4.5L19 7.5'],
+  'chevron-left': ['m14.5 6-6 6 6 6'],
+  'chevron-right': ['m9.5 6 6 6-6 6'],
+  star: [
+    'm12 3.5 2.6 5.4 5.9.8-4.3 4.1 1.1 5.9L12 16.9l-5.3 2.8 1.1-5.9L3.5 9.7l5.9-.8Z',
+  ],
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill={filled ? 'currentColor' : 'none'}
+  stroke="currentColor"
+  stroke-width={filled ? 1.2 : 1.7}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {PATHS[name].map((d) => (
+    <path d={d} />
+  ))}
+</svg>

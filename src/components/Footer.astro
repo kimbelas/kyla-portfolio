@@ -1,0 +1,18 @@
+---
+import { getEntry } from 'astro:content'
+import Monogram from './brand/Monogram.astro'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const year = new Date().getFullYear()
+---
+
+<footer class="mx-auto flex w-full max-w-[1440px] flex-wrap items-center justify-between gap-3 px-6 pt-4 pb-10 text-[13px] text-muted">
+  <span class="flex items-center gap-3">
+    <Monogram size={36} />
+    <span class="font-script text-[36px] leading-none text-rose">
+      {profile.name}
+    </span>
+  </span>
+  <span>{profile.title}</span>
+  <span>© {year}</span>
+</footer>

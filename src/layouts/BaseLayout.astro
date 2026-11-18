@@ -1,0 +1,41 @@
+---
+import type { Meta } from '../lib/seo'
+import Seo from '../components/seo/Seo.astro'
+import JsonLd from '../components/seo/JsonLd.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
+
+interface Props {
+  meta: Meta
+  jsonLd?: object[]
+}
+
+const { meta, jsonLd = [] } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Seo meta={meta} />
+    {jsonLd.map((data) => (
+      <JsonLd data={data} />
+    ))}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-ivory"
+    >
+      Skip to content
+    </a>
+    <slot name="nav" />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <audio id="player-audio" preload="none"></audio>
+  </body>
+</html>
