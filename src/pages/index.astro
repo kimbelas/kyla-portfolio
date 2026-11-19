@@ -7,6 +7,7 @@ import Highlights from '../components/home/Highlights.astro'
 import Stats from '../components/home/Stats.astro'
 import About from '../components/home/About.astro'
 import Expertise from '../components/home/Expertise.astro'
+import CallsSection from '../components/calls/CallsSection.astro'
 import portrait from '../assets/images/profile/kyla.webp'
 import { buildMeta } from '../lib/seo'
 import { personSchema, profilePageSchema, websiteSchema } from '../lib/jsonld'
@@ -34,5 +35,6 @@ const jsonLd = [
     <Stats />
     <About />
     <Expertise />
+    <CallsSection />
   </div>
 </BaseLayout>

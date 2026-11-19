@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { buildMeta } from '../../lib/seo'
+import { audioObjectSchema, breadcrumbSchema } from '../../lib/jsonld'
+import { formatDuration, orderRecordings } from '../../lib/collections'
+
+const recordings = orderRecordings(
+  (await getCollection('recordings')).map((r) => r.data),
+)
+const site = Astro.site!
+const meta = buildMeta({
+  title: 'Call recordings',
+  description:
+    'Listen to real cold calls, appointment setting, real estate and construction customer calls handled by Kyla Belas, an executive virtual assistant.',
+  path: '/calls/',
+  site,
+})
+const jsonLd = [
+  breadcrumbSchema(
+    [
+      { name: 'Home', path: '/' },
+      { name: 'Call recordings', path: '/calls/' },
+    ],
+    site,
+  ),
+  ...recordings.map((r) => audioObjectSchema(r, site)),
+]
+---
+
+<BaseLayout meta={meta} jsonLd={jsonLd}>
+  <div class="mx-auto flex max-w-[960px] flex-col gap-6 px-3 pt-8 pb-16 min-[641px]:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-muted">
+      <ol class="m-0 flex list-none gap-2 p-0">
+        <li>
+          <a href="/" class="underline underline-offset-4">
+            Home
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page">Call recordings</li>
+      </ol>
+    </nav>
+    <h1 class="font-display text-[clamp(40px,5vw,64px)] leading-none font-normal">
+      Call <em class="text-rose">recordings</em>
+    </h1>
+    <div class="flex flex-col gap-4">
+      {recordings.map((r) => (
+        <article class="flex flex-col gap-3 rounded-[24px] border border-line bg-paper p-6">
+          <h2 class="font-display text-[26px] leading-[1.15] font-normal">
+            {r.title}
+          </h2>
+          <p class="text-[11px] tracking-[0.14em] text-muted uppercase">
+            {r.group} ·{' '}
+            <span class="tabular-nums">{formatDuration(r.durationSec)}</span>
+          </p>
+          {r.note && <p class="text-sm text-muted-warm">{r.note}</p>}
+          {r.summary && (
+            <details class="text-ink-soft">
+              <summary class="min-h-11 cursor-pointer py-2 text-sm font-semibold">
+                Summary
+              </summary>
+              <p>{r.summary}</p>
+            </details>
+          )}
+          {r.transcript && (
+            <details class="text-ink-soft">
+              <summary class="min-h-11 cursor-pointer py-2 text-sm font-semibold">
+                Transcript
+              </summary>
+              <p class="whitespace-pre-line">{r.transcript}</p>
+            </details>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

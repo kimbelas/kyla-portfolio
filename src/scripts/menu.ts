@@ -71,7 +71,9 @@ export function initMenu(
   }
 
   const onCardClick = (e: Event) => {
-    if ((e.target as Element).closest('a')) close(false)
+    const link = (e.target as Element).closest('a')
+    // The play control stays in the page, so focus must not be left in the hidden card.
+    if (link) close(link.hasAttribute('data-play-featured'))
   }
 
   const onMedia = (e: { matches: boolean }) => {

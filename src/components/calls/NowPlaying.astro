@@ -1,0 +1,77 @@
+---
+import Icon from '../icons/Icon.astro'
+import Waveform from './Waveform.astro'
+import { formatDuration } from '../../lib/collections'
+
+interface Props {
+  id: string
+  title: string
+  note?: string
+  durationSec: number
+}
+
+const { id, title, note, durationSec } = Astro.props
+const total = formatDuration(durationSec)
+---
+
+<div class="flex flex-col gap-3.5 rounded-[22px] bg-paper p-[18px] min-[641px]:rounded-3xl min-[641px]:p-6">
+  <div data-now-playing aria-live="polite" class="flex flex-col gap-2">
+    <span
+      data-np-status
+      class="text-[11px] tracking-[0.2em] text-rose-strong uppercase"
+    >
+      Start here
+    </span>
+    <p
+      data-np-title
+      class="font-display text-[21px] leading-[1.15] min-[641px]:text-[28px] min-[641px]:leading-[1.1]"
+    >
+      {title}
+    </p>
+    {note && (
+      <span
+        data-np-note
+        data-note-for={id}
+        class="self-start rounded-full border border-rule px-3 py-0.5 text-xs text-muted-warm"
+      >
+        {note}
+      </span>
+    )}
+    <p data-np-error hidden class="text-sm font-semibold text-rose-strong">
+      Couldn’t load this call. Try again.
+    </p>
+  </div>
+  <div class="flex items-center gap-3.5">
+    <button
+      type="button"
+      data-np-toggle
+      aria-label={`Play ${title}`}
+      class="grid size-[52px] flex-none cursor-pointer place-items-center rounded-full bg-rose text-paper"
+    >
+      <span data-icon="play">
+        <Icon name="play" size={18} />
+      </span>
+      <span data-icon="pause" class="hidden">
+        <Icon name="pause" size={18} />
+      </span>
+    </button>
+    <div class="relative h-11 min-w-0 flex-1 rounded-lg has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-rose">
+      <Waveform />
+      <input
+        type="range"
+        data-seek
+        min="0"
+        max={durationSec}
+        step="1"
+        value="0"
+        disabled
+        aria-label="Seek"
+        aria-valuetext={`0:00 of ${total}`}
+        class="absolute inset-0 size-full cursor-pointer opacity-0 focus-visible:outline-none disabled:cursor-default"
+      />
+    </div>
+    <span data-np-time class="text-[13px] text-muted tabular-nums">
+      0:00 / {total}
+    </span>
+  </div>
+</div>

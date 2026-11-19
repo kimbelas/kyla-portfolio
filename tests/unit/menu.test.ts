@@ -83,6 +83,19 @@ describe('initMenu', () => {
     expect(document.documentElement.hasAttribute('data-menu-open')).toBe(false)
   })
 
+  test('clicking the play control closes the menu and returns focus to the toggle', () => {
+    const play = document.createElement('a')
+    play.href = '/#calls'
+    play.setAttribute('data-play-featured', '')
+    play.addEventListener('click', (e) => e.preventDefault())
+    document.querySelector('[data-menu-card]')!.append(play)
+    open()
+    play.focus()
+    play.click()
+    expect(root.open).toBe(false)
+    expect(document.activeElement).toBe(toggle)
+  })
+
   test('Tab from the last item wraps to the close button', () => {
     open()
     const last = document.getElementById('last')!

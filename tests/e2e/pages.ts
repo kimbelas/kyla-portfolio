@@ -1,1 +1,1 @@
-export const PAGES: string[] = ['/', '/404.html']
+export const PAGES: string[] = ['/', '/calls/', '/404.html']

@@ -48,7 +48,12 @@ const profiles = [
       aria-label={`Play self introduction, ${spoken}`}
       class="grid size-11 flex-none place-items-center rounded-full bg-petal text-ink"
     >
-      <Icon name="play" size={16} />
+      <span data-icon="play">
+        <Icon name="play" size={16} />
+      </span>
+      <span data-icon="pause" class="hidden">
+        <Icon name="pause" size={16} />
+      </span>
     </a>
     <span class="flex-1">
       <span class="block text-[10px] tracking-[0.18em] text-petal uppercase">

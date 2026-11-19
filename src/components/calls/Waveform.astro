@@ -1,0 +1,55 @@
+---
+const BARS = 40
+const STEP = 10
+const WIDTH = BARS * STEP
+const HEIGHT = 40
+
+// Fixed pseudo-random heights so the build is deterministic.
+const heights = Array.from({ length: BARS }, (_, i) => {
+  const wave = Math.abs(Math.sin(i * 1.7) * 0.6 + Math.sin(i * 0.45) * 0.4)
+  return Math.round(8 + wave * (HEIGHT - 10))
+})
+---
+
+<svg
+  aria-hidden="true"
+  focusable="false"
+  viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+  preserveAspectRatio="none"
+  class="h-full w-full"
+>
+  <defs>
+    <clipPath id="wave-progress">
+      <rect
+        data-wave-clip
+        data-full={WIDTH}
+        x="0"
+        y="0"
+        width="0"
+        height={HEIGHT}
+      ></rect>
+    </clipPath>
+  </defs>
+  <g class="fill-petal">
+    {heights.map((h, i) => (
+      <rect
+        x={i * STEP}
+        y={(HEIGHT - h) / 2}
+        width="6"
+        height={h}
+        rx="2"
+      ></rect>
+    ))}
+  </g>
+  <g class="fill-rose" clip-path="url(#wave-progress)">
+    {heights.map((h, i) => (
+      <rect
+        x={i * STEP}
+        y={(HEIGHT - h) / 2}
+        width="6"
+        height={h}
+        rx="2"
+      ></rect>
+    ))}
+  </g>
+</svg>

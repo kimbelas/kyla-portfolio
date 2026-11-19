@@ -63,7 +63,12 @@ const ctaHref = `${prefix}#contact`
         class="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-petal p-1 text-[13px] text-ink"
       >
         <span class="grid size-9 place-items-center rounded-full bg-ink text-petal">
-          <Icon name="play" size={14} />
+          <span data-icon="play">
+            <Icon name="play" size={14} />
+          </span>
+          <span data-icon="pause" class="hidden">
+            <Icon name="pause" size={14} />
+          </span>
         </span>
         <span class="pr-3 max-[640px]:hidden">Hear me · {duration}</span>
       </a>

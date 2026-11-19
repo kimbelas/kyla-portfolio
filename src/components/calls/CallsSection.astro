@@ -1,0 +1,51 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
+import NowPlaying from './NowPlaying.astro'
+import TrackList from './TrackList.astro'
+import { orderRecordings } from '../../lib/collections'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const [featured, ...rest] = orderRecordings(
+  (await getCollection('recordings')).map((r) => r.data),
+)
+const { heading, intro } = profile.recordingsIntro
+const words = heading.split(' ')
+const emphasis = words.slice(-3).join(' ')
+const title = words.slice(0, -3).join(' ')
+---
+
+<section
+  id="calls"
+  aria-labelledby="calls-title"
+  class="mt-10 flex scroll-mt-24 flex-wrap gap-10 rounded-[32px] bg-petal p-[clamp(28px,4vw,56px)] max-[640px]:p-5"
+>
+  <div class="flex min-w-0 flex-[1_1_380px] flex-col gap-4">
+    <SectionHead
+      number="03"
+      eyebrow="Voice & calls"
+      title={title}
+      emphasis={emphasis}
+      id="calls-title"
+      class="[&_em]:text-rose-strong [&_p]:text-rose-strong"
+    />
+    <p class="text-ink-soft">{intro}</p>
+    <NowPlaying
+      id={featured!.id}
+      title={featured!.title}
+      note={featured!.note}
+      durationSec={featured!.durationSec}
+    />
+  </div>
+  <div class="flex min-w-0 flex-[1_1_440px] flex-col gap-3 rounded-3xl bg-ivory p-5 max-[640px]:p-3.5">
+    <TrackList items={rest} />
+    <a
+      href={profile.links.recordings}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex min-h-11 items-center self-start px-2.5 text-xs tracking-[0.16em] text-rose-strong uppercase underline underline-offset-4"
+    >
+      More recordings on Drive ↗
+    </a>
+  </div>
+</section>
