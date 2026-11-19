@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import Icon from '../../components/icons/Icon.astro'
 import { buildMeta } from '../../lib/seo'
 import { audioObjectSchema, breadcrumbSchema } from '../../lib/jsonld'
 import { formatDuration, orderRecordings } from '../../lib/collections'
@@ -55,6 +56,28 @@ const jsonLd = [
             <span class="tabular-nums">{formatDuration(r.durationSec)}</span>
           </p>
           {r.note && <p class="text-sm text-muted-warm">{r.note}</p>}
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              data-track-id={r.id}
+              data-state="idle"
+              aria-label={`Play ${r.title}`}
+              class="grid size-11 flex-none cursor-pointer place-items-center rounded-full bg-rose text-paper"
+            >
+              <span data-icon="play">
+                <Icon name="play" size={16} />
+              </span>
+              <span data-icon="pause" class="hidden">
+                <Icon name="pause" size={16} />
+              </span>
+            </button>
+            <a
+              href={`/audio/${r.file}`}
+              class="inline-flex min-h-11 items-center text-sm text-ink underline underline-offset-4"
+            >
+              Open the MP3<span class="sr-only">: {r.title}</span>
+            </a>
+          </div>
           {r.summary && (
             <details class="text-ink-soft">
               <summary class="min-h-11 cursor-pointer py-2 text-sm font-semibold">

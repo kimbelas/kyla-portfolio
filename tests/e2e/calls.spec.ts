@@ -186,6 +186,45 @@ test('/calls lists every recording and emits one AudioObject each', async ({
   expect(types).toContain('BreadcrumbList')
 })
 
+test('/calls has a play button and an MP3 link for every recording', async ({
+  page,
+}) => {
+  await page.goto('/calls/')
+  for (const r of recordings) {
+    const article = page.locator('article', {
+      has: page.getByRole('heading', { name: r.title, exact: true }),
+    })
+    await expect(
+      article.locator(`button[data-track-id="${r.id}"]`),
+    ).toHaveAttribute('aria-label', `Play ${r.title}`)
+    await expect(article.locator(`a[href="/audio/${r.file}"]`)).toBeVisible()
+  }
+  const last = recordings[recordings.length - 1]!
+  const button = page.locator(`button[data-track-id="${last.id}"]`)
+  await button.click()
+  await expect(button).toHaveAttribute('aria-label', `Pause ${last.title}`)
+  expect(await audioSrc(page)).toMatch(new RegExp(`/audio/${last.file}$`))
+  await button.click()
+  await expect(button).toHaveAttribute('aria-label', `Play ${last.title}`)
+})
+
+test('home links to the /calls page', async ({ page }) => {
+  await page.goto('/')
+  await expect(
+    page.locator('#calls').getByRole('link', { name: 'All call recordings' }),
+  ).toHaveAttribute('href', '/calls/')
+})
+
+test.describe('/calls without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+  test('every recording is reachable as an MP3 link', async ({ page }) => {
+    await page.goto('/calls/')
+    await expect(page.locator('article a[href^="/audio/"]')).toHaveCount(
+      recordings.length,
+    )
+  })
+})
+
 test('More recordings on Drive link points to the recordings folder', async ({
   page,
 }) => {

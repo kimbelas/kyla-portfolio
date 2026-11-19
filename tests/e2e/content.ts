@@ -16,7 +16,9 @@ export const portfolio = loadContent<{
 
 export const recordings = loadContent<{
   id: string
+  title: string
   group: string
+  file: string
   featured?: boolean
 }>('recordings')
 
