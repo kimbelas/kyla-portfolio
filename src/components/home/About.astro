@@ -1,0 +1,48 @@
+---
+import { getEntry } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const [first = '', second] = profile.about.paragraphs
+const initial = first.charAt(0)
+const firstRest = first.slice(1)
+---
+
+<section
+  id="about"
+  aria-labelledby="about-title"
+  class="mt-10 grid scroll-mt-24 grid-cols-1 gap-10 rounded-[24px] border border-line bg-paper p-6 min-[641px]:rounded-[32px] min-[641px]:p-[clamp(28px,4vw,64px)] min-[900px]:grid-cols-2 min-[900px]:gap-14"
+>
+  <div>
+    <SectionHead
+      number="01"
+      eyebrow="About"
+      title="From blueprints to"
+      emphasis="business operations"
+      id="about-title"
+    />
+    <blockquote class="mt-10 font-script text-[52px] leading-[1.1] text-rose">
+      {profile.pullQuote}
+    </blockquote>
+  </div>
+  <div class="flex flex-col gap-6">
+    <p class="text-ink-soft">
+      <span
+        aria-hidden="true"
+        class="float-left mt-1.5 mr-2.5 font-display text-[72px] leading-[0.8] text-rose"
+      >
+        {initial}
+      </span>
+      <span class="sr-only">{initial}</span>
+      {firstRest}
+    </p>
+    {second && <p class="text-ink-soft">{second}</p>}
+    <ol class="mt-2 flex flex-wrap gap-2">
+      {profile.journey.map((j) => (
+        <li class="rounded-full bg-blush px-3.5 py-1.5 text-[13px]">
+          <span class="font-display text-rose">{j.year}</span> · {j.text}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

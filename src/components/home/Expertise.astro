@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
+
+const items = (await getCollection('expertise')).map((e) => e.data)
+const BG = ['bg-blush', 'bg-champagne', 'bg-paper border border-line']
+---
+
+<section
+  id="expertise"
+  aria-labelledby="expertise-title"
+  class="mt-10 flex scroll-mt-24 flex-col gap-5"
+>
+  <SectionHead
+    number="02"
+    eyebrow="Expertise"
+    title="One person, the whole"
+    emphasis="workflow"
+    id="expertise-title"
+    class="border-b border-ink pb-3.5"
+  />
+  <div class="grid grid-cols-1 gap-3 min-[641px]:gap-5 min-[900px]:grid-cols-2 min-[1101px]:grid-cols-3">
+    {items.map((e, i) => (
+      <article class={`flex flex-col gap-3 rounded-[28px] p-7 ${BG[i % 3]}`}>
+        <span data-numeral class="font-display text-[26px] text-rose italic">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+        <h3 class="font-display text-[28px] leading-[1.15] font-normal">
+          {e.title}
+        </h3>
+        <p class="text-muted-warm">{e.summary}</p>
+        <ul class="mt-auto flex flex-col gap-1 border-t border-rule pt-3.5 text-sm text-ink-soft">
+          {e.points.map((p) => (
+            <li>{p}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>

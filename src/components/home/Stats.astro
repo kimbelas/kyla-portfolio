@@ -1,0 +1,17 @@
+---
+import { getEntry } from 'astro:content'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+---
+
+<section
+  aria-label="In numbers"
+  class="grid grid-cols-1 rounded-[28px] border border-line bg-paper px-7 py-2 min-[641px]:grid-cols-2 min-[1101px]:grid-cols-4"
+>
+  {profile.stats.map((s) => (
+    <div class="py-6 pr-5">
+      <p class="font-display text-5xl leading-none text-rose">{s.value}</p>
+      <p class="mt-2 max-w-[26ch] text-sm text-muted">{s.label}</p>
+    </div>
+  ))}
+</section>

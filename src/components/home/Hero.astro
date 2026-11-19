@@ -1,0 +1,94 @@
+---
+import { getEntry } from 'astro:content'
+import { Picture } from 'astro:assets'
+import Icon from '../icons/Icon.astro'
+import portrait from '../../assets/images/profile/kyla.webp'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const year = profile.education.years.split(' - ').pop()
+---
+
+<section
+  id="top"
+  class="flex scroll-mt-24 flex-col gap-3 min-[641px]:gap-5 min-[900px]:flex-row"
+>
+  <div class="flex min-w-0 flex-[2_1_560px] flex-col justify-between gap-9 rounded-[28px] bg-blush p-6 min-[641px]:rounded-[32px] min-[641px]:p-[clamp(28px,4vw,56px)]">
+    <div class="flex flex-wrap justify-between gap-2.5 border-b border-ink pb-3 text-[10px] tracking-[0.18em] text-muted uppercase min-[641px]:text-[11px] min-[641px]:tracking-[0.2em]">
+      <span>The Portfolio · 2026</span>
+      <span>{profile.location.locality}, Philippines</span>
+      <span class="hidden min-[641px]:inline">{profile.eyebrow}</span>
+    </div>
+    <div>
+      <h1 class="font-display text-[44px] leading-[0.98] font-normal tracking-[-0.02em] min-[641px]:text-[clamp(48px,6.4vw,96px)]">
+        {profile.headline.lead}{' '}
+        <em class="text-rose">{profile.headline.emphasis}</em>
+      </h1>
+      <p
+        data-rotating
+        class="mt-5 font-display text-[19px] text-muted-warm italic min-[641px]:text-2xl"
+      >
+        Your partner in
+        <br class="min-[641px]:hidden" />{' '}
+        <span class="sr-only" data-rotating-list>
+          {profile.rotating.join(', ')}
+        </span>
+        <span
+          aria-hidden="true"
+          class="inline-grid rounded-xl bg-paper px-3.5 py-0.5 align-baseline text-rose not-italic"
+        >
+          {profile.rotating.map((word) => (
+            <span
+              data-rotating-word
+              class="rotating-word col-start-1 row-start-1"
+            >
+              {word}
+            </span>
+          ))}
+        </span>
+      </p>
+      <p class="mt-[18px] max-w-[50ch] text-muted-warm">{profile.intro}</p>
+    </div>
+    <div class="flex flex-col gap-2.5 min-[641px]:flex-row min-[641px]:flex-wrap min-[641px]:gap-3">
+      <a
+        href="#work"
+        class="inline-flex min-h-[52px] items-center justify-center rounded-full bg-ink px-7 text-xs tracking-[0.16em] text-ivory uppercase hover:bg-ink-soft"
+      >
+        View my work
+      </a>
+      <a
+        href="#calls"
+        class="inline-flex min-h-[52px] items-center justify-center gap-2.5 rounded-full bg-paper px-6 text-xs tracking-[0.16em] text-ink uppercase hover:bg-champagne"
+      >
+        <Icon name="play" size={14} />
+        Hear my calls
+      </a>
+    </div>
+  </div>
+  <figure class="relative flex h-[300px] min-w-0 flex-[1_1_320px] flex-col justify-end overflow-hidden rounded-[28px] bg-petal px-5 pt-5 min-[641px]:h-auto min-[641px]:min-h-[500px] min-[641px]:rounded-[32px] min-[641px]:px-6 min-[641px]:pt-6">
+    <Picture
+      src={portrait}
+      alt="Portrait of Kyla Belas"
+      formats={['avif', 'webp']}
+      widths={[360, 480, 720]}
+      sizes="(max-width: 640px) 90vw, 30vw"
+      loading="eager"
+      fetchpriority="high"
+      class="block h-[420px] w-full rounded-t-full object-cover object-top mix-blend-multiply min-[641px]:h-[460px]"
+    />
+    <span
+      aria-hidden="true"
+      class="absolute bottom-6 left-4 hidden font-script text-[clamp(80px,9vw,130px)] leading-none text-rose min-[641px]:block"
+    >
+      {profile.firstName}
+    </span>
+    <figcaption class="absolute top-3.5 right-3.5 rounded-[14px] bg-paper px-3 py-2 text-right min-[641px]:top-5 min-[641px]:right-5 min-[641px]:rounded-[18px] min-[641px]:px-4 min-[641px]:py-2.5">
+      <span class="block font-display text-[15px] min-[641px]:text-lg">
+        {profile.badges[0]!.label}
+      </span>
+      <span class="block text-[11px] text-muted min-[641px]:text-xs">
+        {profile.education.school}
+        <span class="hidden min-[641px]:inline"> · {year}</span>
+      </span>
+    </figcaption>
+  </figure>
+</section>

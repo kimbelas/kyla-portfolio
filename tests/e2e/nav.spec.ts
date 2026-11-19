@@ -111,9 +111,15 @@ test('resizing to desktop while open closes the menu and unlocks scroll', async 
   ).not.toBe('hidden')
 })
 
-test.skip('active link follows scroll', async () => {
-  // Needs the real home sections (Task 6 adds this e2e). Covered in jsdom by
-  // tests/unit/menu.test.ts for now.
+test('active link follows scroll', async ({ page }) => {
+  test.skip(!isDesktop(page), 'desktop only')
+  await page.goto('/')
+  await page
+    .locator('#expertise')
+    .evaluate((el) => el.scrollIntoView({ block: 'start' }))
+  await expect(
+    page.locator('[data-nav-links] a[href="#expertise"]'),
+  ).toHaveAttribute('aria-current', 'true')
 })
 
 test.describe('without JavaScript', () => {

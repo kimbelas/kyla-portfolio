@@ -1,0 +1,122 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import Icon from '../icons/Icon.astro'
+import { formatDuration, orderRecordings } from '../../lib/collections'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const revenue = (await getEntry('metrics', 'won-revenue'))!.data
+const featured = orderRecordings(
+  (await getCollection('recordings')).map((r) => r.data),
+)[0]!
+
+const money = (n: number) =>
+  `${revenue.prefix}${n.toFixed(revenue.decimals)}${revenue.suffix}`
+
+const featuredTools = [
+  'HubSpot',
+  'Salesforce',
+  'Notion',
+  'ClickUp',
+  'QuickBooks',
+  'AutoCAD',
+  'SketchUp',
+  'Lumion',
+  'Canva',
+  'Photoshop',
+]
+const allTools = profile.tools.flatMap((g) => g.items)
+const expert = allTools.find((t) => t.note)!
+const tools = featuredTools.filter((n) => allTools.some((t) => t.name === n))
+
+const WAVE = [38, 62, 48, 80, 55, 92, 70, 44, 66, 84, 52, 36, 72, 90, 58, 46]
+const bars = Array.from({ length: 32 }, (_, i) => WAVE[i % WAVE.length]!)
+const playedBars = 9
+---
+
+<section
+  aria-label="Highlights"
+  class="grid grid-cols-1 gap-3 min-[641px]:gap-5 min-[900px]:grid-cols-3"
+>
+  <div class="flex min-w-0 flex-col gap-[18px] rounded-[28px] bg-ink p-7 text-ivory">
+    <div class="flex flex-wrap justify-between gap-2">
+      <span class="text-[11px] tracking-[0.2em] text-petal uppercase">
+        Start here
+      </span>
+      {featured.note && (
+        <span class="rounded-full border border-petal px-3 py-0.5 text-xs text-petal">
+          {featured.note}
+        </span>
+      )}
+    </div>
+    <p class="font-display text-[30px] leading-[1.1]">{featured.title}</p>
+    <div class="flex items-center gap-4">
+      <a
+        href="#calls"
+        data-play-featured
+        aria-label={`Play ${featured.title}`}
+        class="grid size-14 flex-none place-items-center rounded-full bg-petal text-ink hover:bg-blush"
+      >
+        <Icon name="play" size={20} />
+      </a>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 128 40"
+        preserveAspectRatio="none"
+        class="h-10 min-w-0 flex-1"
+      >
+        {bars.map((h, i) => (
+          <rect
+            x={i * 4}
+            y={20 - (h * 0.4) / 2}
+            width="2.4"
+            height={h * 0.4}
+            rx="1.2"
+            fill={i < playedBars ? '#F5D0D3' : '#5A474B'}
+          />
+        ))}
+      </svg>
+      <span class="text-[13px] text-on-dark-muted tabular-nums">
+        {formatDuration(featured.durationSec)}
+      </span>
+    </div>
+  </div>
+
+  <div class="flex min-w-0 flex-col gap-2.5 rounded-[28px] border border-line bg-paper p-7">
+    <span class="text-[11px] tracking-[0.2em] text-rose uppercase">
+      Year one at 2A Construction
+    </span>
+    <p class="font-display text-[56px] leading-none">{money(revenue.after)}</p>
+    <p class="text-sm text-muted">
+      {revenue.label.toLowerCase()} in July 2026, up from{' '}
+      {money(revenue.before)} in July 2025
+    </p>
+    <div class="mt-1.5 flex flex-col gap-2">
+      <progress
+        class="bar bar-before"
+        value={revenue.before}
+        max={revenue.after}
+        aria-label="July 2025"
+      ></progress>
+      <progress
+        class="bar bar-after"
+        value={revenue.after}
+        max={revenue.after}
+        aria-label="July 2026"
+      ></progress>
+    </div>
+  </div>
+
+  <div class="flex min-w-0 flex-col gap-3.5 rounded-[28px] bg-champagne p-7">
+    <span class="text-[11px] tracking-[0.2em] text-toolkit-label uppercase">
+      Daily toolkit
+    </span>
+    <p class="font-display text-[28px] leading-[1.1]">
+      {expert.name}, <em>{profile.badges[1]!.sub.toLowerCase()}</em>
+    </p>
+    <ul class="flex flex-wrap gap-2">
+      {tools.map((t) => (
+        <li class="rounded-full bg-paper px-3 py-[5px] text-[13px]">{t}</li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+interface Props {
+  number?: string
+  eyebrow: string
+  title: string
+  emphasis?: string
+  id?: string
+  class?: string
+}
+
+const {
+  number,
+  eyebrow,
+  title,
+  emphasis,
+  id,
+  class: className = '',
+} = Astro.props
+---
+
+<div class={className}>
+  <p class="text-[11px] tracking-[0.2em] text-rose uppercase">
+    {number ? `${number} · ${eyebrow}` : eyebrow}
+  </p>
+  <h2
+    id={id}
+    class="mt-3.5 font-display text-[clamp(34px,4.4vw,60px)] leading-[1.05] font-normal"
+  >
+    {title} {emphasis && <em class="text-rose">{emphasis}</em>}
+  </h2>
+</div>

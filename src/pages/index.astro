@@ -1,19 +1,38 @@
 ---
 import { getEntry } from 'astro:content'
+import { getImage } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import Hero from '../components/home/Hero.astro'
+import Highlights from '../components/home/Highlights.astro'
+import Stats from '../components/home/Stats.astro'
+import About from '../components/home/About.astro'
+import Expertise from '../components/home/Expertise.astro'
+import portrait from '../assets/images/profile/kyla.webp'
 import { buildMeta } from '../lib/seo'
+import { personSchema, profilePageSchema, websiteSchema } from '../lib/jsonld'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
+const site = Astro.site!
+const image = await getImage({ src: portrait, width: 720, format: 'webp' })
 const meta = buildMeta({
   description:
-    'Kyla Belas is an architecture-trained executive virtual assistant and project manager for construction, sales and marketing teams.',
+    'Kyla Belas is an architecture-trained executive virtual assistant and project manager in Pampanga, running construction operations, sales and marketing.',
   path: '/',
-  site: Astro.site!,
+  site,
 })
+const jsonLd = [
+  websiteSchema(site),
+  profilePageSchema(site),
+  personSchema(profile, site, new URL(image.src, site).href),
+]
 ---
 
-<BaseLayout meta={meta}>
-  <h1 class="px-6 py-16 font-display text-4xl">
-    {profile.headline.lead} <em>{profile.headline.emphasis}</em>
-  </h1>
+<BaseLayout meta={meta} jsonLd={jsonLd}>
+  <div class="mx-auto flex max-w-[1320px] flex-col gap-3 px-3 pt-5 pb-10 min-[641px]:gap-5 min-[641px]:px-6">
+    <Hero />
+    <Highlights />
+    <Stats />
+    <About />
+    <Expertise />
+  </div>
 </BaseLayout>
