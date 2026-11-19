@@ -1,4 +1,8 @@
 import { test, expect } from '@playwright/test'
+import { clients, experience, faq, reviews } from './content'
+
+const shots = reviews.length
+const seeAll = new RegExp(`See all ${shots} original screenshots`)
 
 test('growth cards show $253.81K, 10.29%, $636.01K with their July 2025 values', async ({
   page,
@@ -13,16 +17,18 @@ test('growth cards show $253.81K, 10.29%, $636.01K with their July 2025 values',
   }
 })
 
-test('experience lists 6 roles, newest first, starting with Sharks Capital | 2A Construction LLC', async ({
+test('experience lists every role, newest first, starting with Sharks Capital | 2A Construction LLC', async ({
   page,
 }) => {
   await page.goto('/')
   const roles = page.locator('#experience [data-role]')
-  await expect(roles).toHaveCount(6)
+  await expect(roles).toHaveCount(experience.length)
   await expect(roles.first()).toContainText(
     'Sharks Capital | 2A Construction LLC',
   )
-  await expect(page.locator('#experience [data-client]')).toHaveCount(7)
+  await expect(page.locator('#experience [data-client]')).toHaveCount(
+    clients.length,
+  )
 })
 
 test('feature quote is Tracy Scuteri, verbatim', async ({ page }) => {
@@ -49,35 +55,42 @@ test('three review cards: Mayra J., Agency lead, Josie A.', async ({
   names.forEach((n, i) => expect(texts[i]).toContain(n))
 })
 
-test('screenshot archive opens with 13 images', async ({ page }) => {
+test('screenshot archive opens with every screenshot', async ({ page }) => {
   await page.goto('/')
-  await page.getByText(/See all 13 original screenshots/).click()
+  await page.getByText(seeAll).click()
   await page.locator('#words [data-archive] a').first().click()
   const dialog = page.locator('dialog[data-lightbox-dialog]')
   await expect(dialog).toBeVisible()
-  await expect(dialog.locator('[data-lightbox-count]')).toHaveText('1 / 13')
+  await expect(dialog.locator('[data-lightbox-count]')).toHaveText(
+    `1 / ${shots}`,
+  )
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()
 })
 
-test('unapproved FAQ questions are absent from the HTML and no FAQPage JSON-LD is emitted', async ({
+test('FAQ section and FAQPage JSON-LD appear only for approved entries', async ({
   page,
 }) => {
   await page.goto('/')
   const html = await page.content()
-  expect(html).not.toContain('What does Kyla do?')
-  expect(html).not.toContain('Which tools does Kyla use?')
-  expect(html).not.toContain('FAQPage')
-  await expect(page.locator('#faq')).toHaveCount(0)
+  for (const f of faq.filter((e) => !e.approved)) {
+    expect(html).not.toContain(f.question)
+  }
+  const approved = faq.filter((e) => e.approved)
+  for (const f of approved) {
+    await expect(page.locator('#faq')).toContainText(f.question)
+  }
+  await expect(page.locator('#faq')).toHaveCount(approved.length > 0 ? 1 : 0)
+  expect(html.includes('"FAQPage"')).toBe(approved.length > 0)
 })
 
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false })
-  test('all 13 screenshot links are reachable', async ({ page }) => {
+  test('all screenshot links are reachable', async ({ page }) => {
     await page.goto('/')
-    await page.getByText(/See all 13 original screenshots/).click()
+    await page.getByText(seeAll).click()
     const links = page.locator('#words [data-archive] a')
-    await expect(links).toHaveCount(13)
+    await expect(links).toHaveCount(shots)
     for (const l of await links.all()) await expect(l).toBeVisible()
   })
 })

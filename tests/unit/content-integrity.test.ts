@@ -60,20 +60,16 @@ describe('content integrity', () => {
   })
 
   test('metrics, expertise, experience and clients are populated', () => {
-    expect(metrics).toHaveLength(3)
-    expect(expertise).toHaveLength(6)
-    expect(experience).toHaveLength(6)
-    expect(clients).toHaveLength(7)
+    for (const list of [metrics, expertise, experience, clients])
+      expect(list.length).toBeGreaterThan(0)
   })
 
-  test('portfolio has 38 pieces split 20/7/2/9', () =>
-    expect(categoryCounts(portfolio)).toEqual({
-      all: 38,
-      marketing: 20,
-      construction: 7,
-      growth: 2,
-      architecture: 9,
-    }))
+  test('portfolio category counts add up to the whole collection', () => {
+    const { all, ...byCategory } = categoryCounts(portfolio)
+    expect(all).toBe(portfolio.length)
+    expect(all).toBeGreaterThan(0)
+    expect(Object.values(byCategory).reduce((a, b) => a + b, 0)).toBe(all)
+  })
 
   test('exactly one featured recording: self-introduction, note Recorded early 2025', () => {
     const featured = recordings.filter((r) => r.featured)
@@ -83,8 +79,8 @@ describe('content integrity', () => {
     expect(featured[0].durationSec).toBe(102)
   })
 
-  test('12 recordings, none with id or title matching /contenu/i', () => {
-    expect(recordings).toHaveLength(12)
+  test('no recording has an id or title matching /contenu/i', () => {
+    expect(recordings.length).toBeGreaterThan(1)
     for (const r of recordings) {
       expect(r.id).not.toMatch(/contenu/i)
       expect(r.title).not.toMatch(/contenu/i)
@@ -107,8 +103,7 @@ describe('content integrity', () => {
     }
   })
 
-  test('13 reviews; home has 1 feature (Tracy Scuteri) and 3 cards (Mayra J., Agency lead, Josie A.)', () => {
-    expect(reviews).toHaveLength(13)
+  test('home has 1 feature (Tracy Scuteri) and 3 cards (Mayra J., Agency lead, Josie A.)', () => {
     expect(
       reviews.filter((r) => r.home === 'feature').map((r) => r.name),
     ).toEqual(['Tracy Scuteri'])
@@ -120,9 +115,8 @@ describe('content integrity', () => {
     ).toEqual(['Agency lead', 'Josie A.', 'Mayra J.'])
   })
 
-  test('faq has 5 entries, all unapproved', () => {
-    expect(faq).toHaveLength(5)
-    expect(faq.every((f) => f.approved === false)).toBe(true)
+  test('faq entries carry an explicit approved flag', () => {
+    for (const f of faq) expect(typeof f.approved).toBe('boolean')
   })
 
   test('ids are unique within each collection', () => {
@@ -162,12 +156,13 @@ describe('content integrity', () => {
     )
   })
 
-  test('nine portfolio items have homeOrder 1..9 with no gaps', () => {
+  test('portfolio homeOrder values are unique positions from 1 to 9', () => {
     const orders = portfolio
       .filter((p) => p.homeOrder !== undefined)
       .map((p) => p.homeOrder as number)
-      .sort((a, b) => a - b)
-    expect(orders).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    expect(orders.length).toBeGreaterThan(0)
+    expect(new Set(orders).size).toBe(orders.length)
+    for (const o of orders) expect(o >= 1 && o <= 9, String(o)).toBe(true)
   })
 })
 

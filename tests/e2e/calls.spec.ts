@@ -1,4 +1,9 @@
 import { test, expect, type Page } from '@playwright/test'
+import { recordings } from './content'
+
+const featured = recordings.filter((r) => r.featured)
+const rest = recordings.length - featured.length
+const coldCalling = recordings.filter((r) => r.group === 'Cold calling').length
 
 const audioSrc = (page: Page) =>
   page.evaluate(
@@ -18,11 +23,11 @@ test('no audio is requested before the first play', async ({ page }) => {
   expect(audioRequests).toEqual([])
 })
 
-test('home lists 11 tracks plus the featured self introduction tagged Recorded early 2025', async ({
+test('home lists every non-featured track plus the featured self introduction tagged Recorded early 2025', async ({
   page,
 }) => {
   await page.goto('/')
-  await expect(page.locator('#calls [data-track-id]')).toHaveCount(11)
+  await expect(page.locator('#calls [data-track-id]')).toHaveCount(rest)
   const card = page.locator('#calls [data-now-playing]')
   await expect(card).toHaveAttribute('aria-live', 'polite')
   await expect(card.locator('[data-np-title]')).toHaveText('Self introduction')
@@ -51,18 +56,20 @@ test('only one track plays at a time', async ({ page }) => {
   )
 })
 
-test('filter Cold calling shows 4 tracks', async ({ page }) => {
+test('filter Cold calling shows only the Cold calling tracks', async ({
+  page,
+}) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Cold calling', exact: true }).click()
   await expect(page.locator('#calls li[data-group]:not([hidden])')).toHaveCount(
-    4,
+    coldCalling,
   )
   await expect(
     page.getByRole('button', { name: 'Cold calling', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true')
-  await page.getByRole('button', { name: /^All 11/ }).click()
+  await page.getByRole('button', { name: new RegExp(`^All ${rest}`) }).click()
   await expect(page.locator('#calls li[data-group]:not([hidden])')).toHaveCount(
-    11,
+    rest,
   )
 })
 
@@ -122,7 +129,7 @@ test('/calls lists every recording and emits one AudioObject each', async ({
 }) => {
   await page.goto('/calls/')
   await expect(page).toHaveTitle('Call recordings · Kyla Belas')
-  await expect(page.locator('article')).toHaveCount(12)
+  await expect(page.locator('article')).toHaveCount(recordings.length)
   await expect(page.locator('article h2').first()).toHaveText(
     'Self introduction',
   )
@@ -131,7 +138,9 @@ test('/calls lists every recording and emits one AudioObject each', async ({
     .evaluateAll((nodes) =>
       nodes.map((n) => JSON.parse(n.textContent ?? '{}')['@type']),
     )
-  expect(types.filter((t) => t === 'AudioObject')).toHaveLength(12)
+  expect(types.filter((t) => t === 'AudioObject')).toHaveLength(
+    recordings.length,
+  )
   expect(types).toContain('BreadcrumbList')
 })
 

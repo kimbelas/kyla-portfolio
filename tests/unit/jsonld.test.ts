@@ -6,6 +6,7 @@ import { profileSchema } from '../../src/content/schemas'
 import {
   audioObjectSchema,
   breadcrumbSchema,
+  faqJsonLd,
   faqPageSchema,
   itemListSchema,
   personSchema,
@@ -144,6 +145,16 @@ test('faqPageSchema maps question and answer', () => {
       },
     ],
   })
+})
+
+test('faqJsonLd emits FAQPage only when at least one entry is approved', () => {
+  const draft = { question: 'Draft?', answer: 'Not yet.', approved: false }
+  const ok = { question: 'Why?', answer: 'Because.', approved: true }
+  expect(faqJsonLd([])).toEqual([])
+  expect(faqJsonLd([draft, { ...draft, question: 'Other?' }])).toEqual([])
+  const out = faqJsonLd([draft, ok])
+  expect(out).toHaveLength(1)
+  expect(out[0]).toEqual(faqPageSchema([ok]))
 })
 
 test('breadcrumbSchema positions start at 1 with absolute URLs', () => {

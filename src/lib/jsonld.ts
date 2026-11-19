@@ -131,6 +131,14 @@ export function faqPageSchema(faqs: { question: string; answer: string }[]) {
   }
 }
 
+/** FAQPage JSON-LD for the approved entries, or nothing when none is approved. */
+export function faqJsonLd(
+  faqs: { question: string; answer: string; approved: boolean }[],
+) {
+  const approved = faqs.filter((f) => f.approved)
+  return approved.length > 0 ? [faqPageSchema(approved)] : []
+}
+
 const ESCAPES: Record<string, string> = {
   '<': '\\u003c',
   '>': '\\u003e',

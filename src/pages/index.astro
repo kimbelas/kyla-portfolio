@@ -16,16 +16,15 @@ import Contact from '../components/home/Contact.astro'
 import portrait from '../assets/images/profile/kyla.webp'
 import { buildMeta } from '../lib/seo'
 import {
-  faqPageSchema,
+  faqJsonLd,
   personSchema,
   profilePageSchema,
   websiteSchema,
 } from '../lib/jsonld'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
-const faqs = (await getCollection('faq'))
-  .map((f) => f.data)
-  .filter((f) => f.approved)
+const allFaqs = (await getCollection('faq')).map((f) => f.data)
+const faqs = allFaqs.filter((f) => f.approved)
 const site = Astro.site!
 const image = await getImage({ src: portrait, width: 720, format: 'webp' })
 const meta = buildMeta({
@@ -38,7 +37,7 @@ const jsonLd = [
   websiteSchema(site),
   profilePageSchema(site),
   personSchema(profile, site, new URL(image.src, site).href),
-  ...(faqs.length > 0 ? [faqPageSchema(faqs)] : []),
+  ...faqJsonLd(allFaqs),
 ]
 ---
 
