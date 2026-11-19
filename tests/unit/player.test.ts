@@ -6,23 +6,35 @@ const tracks: TrackData[] = [
   { id: 'b', title: 'B', src: '/audio/b.mp3', durationSec: 200 },
 ]
 
+type Handler = () => void
+type Registration = { type: string; fn: Handler; src: string; load: number }
+
 class FakeAudio {
-  src = ''
   currentTime = 0
   duration = Number.NaN
   paused = true
   playResult: 'resolve' | 'reject' = 'resolve'
-  private listeners = new Map<string, Set<() => void>>()
-  addEventListener(type: string, fn: () => void) {
-    if (!this.listeners.has(type)) this.listeners.set(type, new Set())
-    this.listeners.get(type)!.add(fn)
+  private loads = 0
+  private source = ''
+  private live = new Set<Registration>()
+  /** Every handler ever added, kept after removal to model events already queued. */
+  private history: Registration[] = []
+  get src() {
+    return this.source
   }
-  removeEventListener(type: string, fn: () => void) {
-    this.listeners.get(type)?.delete(fn)
+  set src(value: string) {
+    this.source = value
+    this.loads += 1
   }
-  dispatchEvent(event: Event) {
-    for (const fn of this.listeners.get(event.type) ?? []) fn()
-    return true
+  addEventListener(
+    type: string,
+    fn: Handler,
+    options?: { signal?: AbortSignal },
+  ) {
+    const reg = { type, fn, src: this.source, load: this.loads }
+    this.live.add(reg)
+    this.history.push(reg)
+    options?.signal?.addEventListener('abort', () => this.live.delete(reg))
   }
   play() {
     this.paused = false
@@ -33,15 +45,24 @@ class FakeAudio {
   pause() {
     this.paused = true
   }
+  /** Delivers to the handlers that are currently attached. */
   emit(type: string) {
-    this.dispatchEvent(new Event(type))
+    for (const reg of [...this.live]) if (reg.type === type) reg.fn()
   }
-  /** Delivers an event that was queued while another track's source was loaded. */
-  emitFor(id: string, type: string) {
-    const current = this.src
-    this.src = tracks.find((t) => t.id === id)!.src
-    this.emit(type)
-    this.src = current
+  /**
+   * Delivers a late event to the handlers registered for the nth request that
+   * loaded track `id`, even if they were detached since.
+   */
+  emitFor(id: string, type: string, nth = 0) {
+    const src = tracks.find((t) => t.id === id)!.src
+    const loads = [
+      ...new Set(this.history.filter((r) => r.src === src).map((r) => r.load)),
+    ]
+    for (const reg of this.history) {
+      if (reg.type === type && reg.src === src && reg.load === loads[nth]) {
+        reg.fn()
+      }
+    }
   }
 }
 
@@ -87,13 +108,24 @@ describe('createPlayer', () => {
     expect(p.snapshot()).toMatchObject({ id: 'b', state: 'playing' })
   })
 
-  test('ignores events from a superseded track', async () => {
+  test('ignores events from a superseded track', () => {
     void p.play('a')
     void p.play('b')
     audio.emitFor('a', 'playing')
-    expect(p.snapshot()).toMatchObject({ id: 'b', state: 'loading' })
     audio.emitFor('a', 'error')
     expect(p.snapshot()).toMatchObject({ id: 'b', state: 'loading' })
+  })
+
+  test('A, B, A replay ignores events of the first A request', async () => {
+    void p.play('a')
+    void p.play('b')
+    void p.play('a')
+    expect(p.snapshot()).toMatchObject({ id: 'a', state: 'loading' })
+    audio.emitFor('a', 'error', 0)
+    audio.emitFor('b', 'playing')
+    expect(p.snapshot()).toMatchObject({ id: 'a', state: 'loading' })
+    audio.emitFor('a', 'playing', 1)
+    expect(p.snapshot()).toMatchObject({ id: 'a', state: 'playing' })
   })
 
   test('a rejected play() of a superseded track does not set error', async () => {

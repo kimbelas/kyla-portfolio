@@ -56,11 +56,23 @@ export function createPlayer(
     emit()
   }
 
-  // The element still carries the source of the track these events belong to.
-  const isCurrentSource = () => audio.src.endsWith(current.src)
+  const EVENTS = [
+    'playing',
+    'waiting',
+    'pause',
+    'ended',
+    'error',
+    'durationchange',
+    'loadedmetadata',
+    'timeupdate',
+  ]
 
-  const onEvent = (type: string) => {
-    if (!isCurrentSource()) return
+  // Handlers of the previous request are detached; each one also checks its own
+  // token so an event already in flight for a superseded request is dropped.
+  let detach: AbortController | null = null
+
+  const onEvent = (type: string, mine: number) => {
+    if (mine !== token) return
     switch (type) {
       case 'playing':
         set('playing')
@@ -94,20 +106,20 @@ export function createPlayer(
     }
   }
 
-  const EVENTS = [
-    'playing',
-    'waiting',
-    'pause',
-    'ended',
-    'error',
-    'durationchange',
-    'loadedmetadata',
-    'timeupdate',
-  ]
-  for (const type of EVENTS) audio.addEventListener(type, () => onEvent(type))
+  function begin(): number {
+    detach?.abort()
+    detach = new AbortController()
+    const mine = ++token
+    for (const type of EVENTS) {
+      audio.addEventListener(type, () => onEvent(type, mine), {
+        signal: detach.signal,
+      })
+    }
+    return mine
+  }
 
   async function start(): Promise<void> {
-    const mine = ++token
+    const mine = begin()
     set('loading')
     try {
       await audio.play()
@@ -137,6 +149,7 @@ export function createPlayer(
   async function toggle(id?: string): Promise<void> {
     const target = id ?? current.id
     if (target === current.id && (state === 'playing' || state === 'loading')) {
+      detach?.abort()
       token += 1
       audio.pause()
       set('paused')
