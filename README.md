@@ -7,6 +7,14 @@ Almost everything you will want to change lives in plain text files in `src/cont
 it, and the next deploy shows the change. You never need to touch the page code to update copy, pictures or
 recordings.
 
+The source lives at https://github.com/kimbelas/kyla-portfolio. To get a copy:
+
+```sh
+git clone https://github.com/kimbelas/kyla-portfolio.git
+cd kyla-portfolio
+npm ci
+```
+
 ## Pending items
 
 These are waiting on Kyla or the owner. None of them blocks the site from going live.
