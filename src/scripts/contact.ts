@@ -9,6 +9,8 @@ export interface ContactDeps {
   navigate: (url: string) => void
 }
 
+const MIN_MESSAGE = 10
+
 const inFlight = new WeakMap<HTMLFormElement, Promise<ContactResult>>()
 
 /**
@@ -32,6 +34,11 @@ async function send(
 ): Promise<ContactResult> {
   const fd = new FormData(form)
   if (String(fd.get('_gotcha') ?? '') !== '') return 'spam'
+  for (const el of form.elements) {
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      el.setCustomValidity('')
+    }
+  }
   if (!form.checkValidity()) {
     form.reportValidity()
     return 'invalid'
@@ -41,6 +48,19 @@ async function send(
     email: String(fd.get('email') ?? '').trim(),
     company: String(fd.get('company') ?? '').trim(),
     message: String(fd.get('message') ?? '').trim(),
+  }
+  const blank = (['name', 'message'] as const).find((k) => data[k] === '')
+  const short = data.message.length < MIN_MESSAGE
+  if (blank || short) {
+    const field = form.elements.namedItem(blank ?? 'message') as
+      HTMLInputElement | HTMLTextAreaElement
+    field.setCustomValidity(
+      blank
+        ? 'Please fill in this field.'
+        : `Please write at least ${MIN_MESSAGE} characters.`,
+    )
+    form.reportValidity()
+    return 'invalid'
   }
   if (!deps.formspreeId) {
     deps.navigate(buildMailto(data, deps.to))

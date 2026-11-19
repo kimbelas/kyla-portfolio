@@ -108,3 +108,12 @@ test('email row copy button copies the address', async ({
     )
   }
 })
+
+test('form labels are not stretched tall', async ({ page }) => {
+  await page.goto('/')
+  const form = page.locator('#contact form')
+  const company = await form
+    .locator('label', { hasText: 'Company (optional)' })
+    .boundingBox()
+  expect(company!.height).toBeLessThan(100)
+})

@@ -24,7 +24,8 @@ const pills = [
 const field =
   'border-0 border-b border-ink bg-transparent py-2.5 text-base normal-case tracking-normal text-ink'
 const label =
-  'flex flex-1 basis-[200px] flex-col gap-1.5 text-[11px] tracking-[0.16em] text-muted-warm uppercase'
+  'flex flex-col gap-1.5 text-[11px] tracking-[0.16em] text-muted-warm uppercase'
+const rowLabel = `${label} flex-1 basis-[200px]`
 ---
 
 <section
@@ -90,7 +91,7 @@ const label =
   >
     <p class="font-script text-[52px] leading-none text-rose">Say hello</p>
     <div class="flex flex-wrap gap-5">
-      <label class={label}>
+      <label class={rowLabel}>
         Your name
         <input
           type="text"
@@ -101,7 +102,7 @@ const label =
           class={field}
         />
       </label>
-      <label class={label}>
+      <label class={rowLabel}>
         Email address
         <input
           type="email"

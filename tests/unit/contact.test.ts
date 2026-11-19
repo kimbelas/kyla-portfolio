@@ -62,6 +62,22 @@ describe('submitContact', () => {
     expect(d.fetch).not.toHaveBeenCalled()
   })
 
+  test('whitespace-only name or short trimmed message is invalid', async () => {
+    for (const over of [
+      { name: '   ' },
+      { message: '            ' },
+      { message: '  short     ' },
+    ]) {
+      const d = deps()
+      expect(await submitContact(makeForm(over), d)).toBe('invalid')
+      expect(d.fetch).not.toHaveBeenCalled()
+      expect(d.navigate).not.toHaveBeenCalled()
+    }
+    const d = deps({ formspreeId: '' })
+    expect(await submitContact(makeForm({ name: ' ' }), d)).toBe('invalid')
+    expect(d.navigate).not.toHaveBeenCalled()
+  })
+
   test('posts JSON with Accept application/json and returns sent on 200', async () => {
     const d = deps()
     expect(await submitContact(makeForm(), d)).toBe('sent')
