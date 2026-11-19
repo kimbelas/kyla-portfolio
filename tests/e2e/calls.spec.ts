@@ -85,6 +85,48 @@ test('nav play control plays self-introduction.mp3 and shows pause', async ({
   await expect(chip).toHaveAttribute('aria-label', /play self introduction/)
 })
 
+test('nav play control mirrors any playing track and pauses it', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const chip = page.locator('header [data-play-featured]').first()
+  await expect(chip.locator('[data-icon="play"]')).toBeVisible()
+  await track(page, '2a-customer-call').click()
+  await expect(chip.locator('[data-icon="pause"]')).toBeVisible()
+  await expect(chip.locator('[data-icon="play"]')).toBeHidden()
+  await expect(chip).toHaveAttribute(
+    'aria-label',
+    /^Hear me · \d+:\d{2}, pause 2A Construction · Customer call$/,
+  )
+  await chip.click()
+  await expect(track(page, '2a-customer-call')).toHaveAttribute(
+    'aria-label',
+    /^Play /,
+  )
+  expect(await audioSrc(page)).toMatch(/2a-customer-call\.mp3$/)
+  await expect(chip.locator('[data-icon="play"]')).toBeVisible()
+  await expect(chip).toHaveAttribute('aria-label', /play self introduction$/)
+  await chip.click()
+  expect(await audioSrc(page)).toMatch(/self-introduction\.mp3$/)
+  await expect(chip).toHaveAttribute('aria-label', /pause self introduction$/)
+})
+
+test('Start here play button shows the pause icon while the intro plays', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const button = page.locator(
+    'main section[aria-label="Highlights"] [data-play-featured]',
+  )
+  await expect(button.locator('[data-icon="play"]')).toBeVisible()
+  await expect(button.locator('[data-icon="pause"]')).toBeHidden()
+  await button.click()
+  expect(await audioSrc(page)).toMatch(/self-introduction\.mp3$/)
+  await expect(button).toHaveAttribute('aria-label', /^Pause /)
+  await expect(button.locator('[data-icon="pause"]')).toBeVisible()
+  await expect(button.locator('[data-icon="play"]')).toBeHidden()
+})
+
 test('menu play control starts the intro and closes the menu', async ({
   page,
 }) => {

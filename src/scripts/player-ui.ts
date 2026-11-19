@@ -17,6 +17,16 @@ function pauseLabel(idle: string): string {
   return idle.replace(/\bplay\b/i, (m) => (m === 'Play' ? 'Pause' : 'pause'))
 }
 
+/**
+ * Label while a different track plays: the visible text stays first (WCAG 2.5.3),
+ * then "pause" and the playing title.
+ */
+function pauseOtherLabel(idle: string, title: string): string {
+  return idle.replace(/\bplay\b.*$/i, (m) =>
+    m.startsWith('Play') ? `Pause ${title}` : `pause ${title}`,
+  )
+}
+
 /** Writes only on change so the polite live region does not re-announce. */
 function setText(el: Element | null, text: string) {
   if (el && el.textContent !== text) el.textContent = text
@@ -29,7 +39,9 @@ function setIcons(el: Element, active: boolean) {
 
 /**
  * Binds the page to the single shared player: track buttons, the nav "Hear me"
- * controls, seek inputs, filter chips and the now-playing region.
+ * controls, seek inputs, filter chips and the now-playing region. Featured
+ * controls marked data-mirror (nav chip and menu row) show pause while anything
+ * plays and pause the current track; otherwise they start the self introduction.
  */
 export function initPlayerUI(doc: Document): void {
   const audio = doc.getElementById('player-audio') as HTMLAudioElement | null
@@ -55,9 +67,11 @@ export function initPlayerUI(doc: Document): void {
   ]
   for (const control of featuredControls) {
     control.dataset.labelIdle = control.getAttribute('aria-label') ?? ''
+    const mirror = control.hasAttribute('data-mirror')
     control.addEventListener('click', (e) => {
       e.preventDefault()
-      void player.toggle(featured.id)
+      const anyActive = isActive(player.snapshot())
+      void player.toggle(mirror && anyActive ? undefined : featured.id)
     })
   }
 
@@ -106,11 +120,15 @@ export function initPlayerUI(doc: Document): void {
     const featuredActive = active && s.id === featured.id
     for (const control of featuredControls) {
       const idle = control.dataset.labelIdle ?? ''
-      control.setAttribute(
-        'aria-label',
-        featuredActive ? pauseLabel(idle) : idle,
-      )
-      setIcons(control, featuredActive)
+      const mirror = control.hasAttribute('data-mirror')
+      const shown = featuredActive || (mirror && active)
+      const label = featuredActive
+        ? pauseLabel(idle)
+        : shown
+          ? pauseOtherLabel(idle, track.title)
+          : idle
+      control.setAttribute('aria-label', label)
+      setIcons(control, shown)
     }
 
     if (npToggle) {

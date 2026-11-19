@@ -56,7 +56,12 @@ const playedBars = 9
         aria-label={`Play ${featured.title}`}
         class="grid size-14 flex-none place-items-center rounded-full bg-petal text-ink hover:bg-blush"
       >
-        <Icon name="play" size={20} />
+        <span data-icon="play">
+          <Icon name="play" size={20} />
+        </span>
+        <span data-icon="pause" class="hidden">
+          <Icon name="pause" size={20} />
+        </span>
       </a>
       <svg
         aria-hidden="true"
