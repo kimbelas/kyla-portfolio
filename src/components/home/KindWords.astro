@@ -1,11 +1,14 @@
 ---
 import { getCollection, getEntry } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
 import Icon from '../icons/Icon.astro'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
 const reviews = (await getCollection('reviews')).map((r) => r.data)
 const feature = reviews.find((r) => r.home === 'feature')
-const cards = reviews.filter((r) => r.home === 'card')
+const cards = reviews
+  .filter((r) => r.home === 'card')
+  .sort((a, b) => (a.homeOrder ?? 0) - (b.homeOrder ?? 0))
 const { upwork } = profile
 ---
 
@@ -20,12 +23,13 @@ const { upwork } = profile
       data-feature
       class="rounded-[32px] bg-blush p-8 text-center min-[641px]:p-14 min-[1101px]:p-20"
     >
-      <p class="text-[11px] tracking-[0.2em] text-rose uppercase">
-        06 · Kind words
-      </p>
-      <h2 id="words-title" class="sr-only">
-        Kind words from clients
-      </h2>
+      <SectionHead
+        number="06"
+        eyebrow="Kind words"
+        title="Kind words from clients"
+        id="words-title"
+        srTitle
+      />
       <blockquote class="mx-auto mt-6 max-w-[34ch] font-display text-[clamp(26px,3vw,40px)] leading-[1.25]">
         {`\u201c${feature.quote}\u201d`}
       </blockquote>
@@ -76,23 +80,28 @@ const { upwork } = profile
       </figure>
     ))}
   </div>
-  <div data-archive class="flex justify-center">
-    {reviews.map((r, i) => (
-      <a
-        href={r.image.src}
-        data-lightbox
-        data-lightbox-title={r.title}
-        hidden={i > 0}
-        class={
-          i === 0
-            ? 'inline-flex min-h-12 items-center rounded-full border border-ink px-7 text-xs tracking-[0.16em] text-ink uppercase'
-            : undefined
-        }
-      >
-        {i === 0 ? `See all ${reviews.length} original screenshots` : r.title}
-      </a>
-    ))}
-  </div>
+  <details
+    data-archive
+    class="rounded-[22px] border border-line bg-paper px-6 py-1"
+  >
+    <summary class="flex min-h-12 cursor-pointer items-center py-3 text-xs tracking-[0.16em] text-ink uppercase">
+      See all {reviews.length} original screenshots
+    </summary>
+    <ul class="grid list-none grid-cols-1 gap-x-6 pb-4 min-[641px]:grid-cols-2">
+      {reviews.map((r) => (
+        <li>
+          <a
+            href={r.image.src}
+            data-lightbox
+            data-lightbox-title={r.title}
+            class="inline-flex min-h-11 items-center text-sm text-ink underline underline-offset-4"
+          >
+            {r.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
 </section>
 
 <script>

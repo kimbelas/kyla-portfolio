@@ -6,6 +6,8 @@ interface Props {
   emphasis?: string
   id?: string
   class?: string
+  tone?: 'light' | 'dark'
+  srTitle?: boolean
 }
 
 const {
@@ -15,17 +17,23 @@ const {
   emphasis,
   id,
   class: className = '',
+  tone = 'light',
+  srTitle = false,
 } = Astro.props
+const accent = tone === 'dark' ? 'text-petal' : 'text-rose'
 ---
 
 <div class={className}>
-  <p class="text-[11px] tracking-[0.2em] text-rose uppercase">
+  <p class={`text-[11px] tracking-[0.2em] ${accent} uppercase`}>
     {number ? `${number} · ${eyebrow}` : eyebrow}
   </p>
   <h2
     id={id}
-    class="mt-3.5 font-display text-[clamp(34px,4.4vw,60px)] leading-[1.05] font-normal"
+    class:list={[
+      'mt-3.5 font-display text-[clamp(34px,4.4vw,60px)] leading-[1.05] font-normal',
+      srTitle && 'sr-only',
+    ]}
   >
-    {title} {emphasis && <em class="text-rose">{emphasis}</em>}
+    {title} {emphasis && <em class={accent}>{emphasis}</em>}
   </h2>
 </div>

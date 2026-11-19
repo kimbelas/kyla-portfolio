@@ -44,17 +44,15 @@ test('three review cards: Mayra J., Agency lead, Josie A.', async ({
   await page.goto('/')
   const cards = page.locator('#words [data-review-card]')
   await expect(cards).toHaveCount(3)
-  const text = (await cards.allTextContents()).join('|')
-  for (const n of ['Mayra J.', 'Agency lead', 'Josie A.']) {
-    expect(text).toContain(n)
-  }
+  const texts = await cards.allTextContents()
+  const names = ['Mayra J.', 'Agency lead', 'Josie A.']
+  names.forEach((n, i) => expect(texts[i]).toContain(n))
 })
 
 test('screenshot archive opens with 13 images', async ({ page }) => {
   await page.goto('/')
-  await page
-    .getByRole('link', { name: /See all 13 original screenshots/ })
-    .click()
+  await page.getByText(/See all 13 original screenshots/).click()
+  await page.locator('#words [data-archive] a').first().click()
   const dialog = page.locator('dialog[data-lightbox-dialog]')
   await expect(dialog).toBeVisible()
   await expect(dialog.locator('[data-lightbox-count]')).toHaveText('1 / 13')
@@ -71,4 +69,15 @@ test('unapproved FAQ questions are absent from the HTML and no FAQPage JSON-LD i
   expect(html).not.toContain('Which tools does Kyla use?')
   expect(html).not.toContain('FAQPage')
   await expect(page.locator('#faq')).toHaveCount(0)
+})
+
+test.describe('without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+  test('all 13 screenshot links are reachable', async ({ page }) => {
+    await page.goto('/')
+    await page.getByText(/See all 13 original screenshots/).click()
+    const links = page.locator('#words [data-archive] a')
+    await expect(links).toHaveCount(13)
+    for (const l of await links.all()) await expect(l).toBeVisible()
+  })
 })

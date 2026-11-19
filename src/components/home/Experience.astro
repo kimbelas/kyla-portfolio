@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
 import { orderExperience } from '../../lib/collections'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
@@ -18,15 +19,13 @@ const fmt = (m: (typeof metrics)[number], v: number) =>
   aria-labelledby="experience-title"
   class="mt-10 scroll-mt-24 rounded-[32px] bg-ink p-7 text-ivory min-[641px]:p-12 min-[1101px]:p-16"
 >
-  <p class="text-[11px] tracking-[0.2em] text-petal uppercase">
-    05 · Experience
-  </p>
-  <h2
+  <SectionHead
+    number="05"
+    eyebrow="Experience"
+    title={profile.growth.heading}
     id="experience-title"
-    class="mt-3 font-display text-[clamp(34px,4.2vw,58px)] leading-[1.04] font-normal"
-  >
-    {profile.growth.heading}
-  </h2>
+    tone="dark"
+  />
   <p class="mt-3.5 text-sm text-on-dark-muted">{profile.growth.note}</p>
   <div class="mt-9 grid grid-cols-1 gap-4 min-[641px]:grid-cols-3">
     {metrics.map((m) => (

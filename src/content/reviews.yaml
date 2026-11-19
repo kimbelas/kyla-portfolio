@@ -48,6 +48,7 @@
   name: Agency lead
   context: Ad script feedback · Slack
   home: card
+  homeOrder: 2
 - id: customer-1
   title: Customer Feedback 1
   image: ../assets/images/reviews/customer-1.webp
@@ -56,6 +57,7 @@
   name: Mayra J.
   context: 2A Construction customer
   home: card
+  homeOrder: 1
 - id: customer-2
   title: Customer Feedback 2
   image: ../assets/images/reviews/customer-2.webp
@@ -68,6 +70,7 @@
   name: Josie A.
   context: 2A Construction customer
   home: card
+  homeOrder: 3
 - id: customer-4
   title: Customer Feedback 4
   image: ../assets/images/reviews/customer-4.webp

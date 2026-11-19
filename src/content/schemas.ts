@@ -136,6 +136,7 @@ export const reviewSchema = <I extends z.ZodType>(image: () => I) =>
       context: z.string().optional(),
       stars: z.number().int().min(1).max(5).optional(),
       home: z.enum(['feature', 'card']).optional(),
+      homeOrder: z.number().int().positive().optional(),
     })
     .superRefine((r, ctx) => {
       if (r.home && !(r.quote && r.name && r.context)) {
