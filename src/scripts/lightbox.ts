@@ -71,7 +71,8 @@ function show(s: Shared, index: number) {
   const thumb = link.querySelector('img')
   s.state.index = i
   s.img.src = link.href
-  s.img.alt = thumb?.alt ?? ''
+  // A text link has no thumbnail; its title then describes the image.
+  s.img.alt = thumb ? thumb.alt : (link.dataset.lightboxTitle ?? '')
   s.title.textContent =
     link.dataset.lightboxTitle ||
     thumb?.alt ||

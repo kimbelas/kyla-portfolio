@@ -101,6 +101,18 @@ describe('initLightbox', () => {
     expect(count()).toBe('1 / 1')
   })
 
+  test('alt falls back to data-lightbox-title when the link has no thumbnail', () => {
+    dispose()
+    document.body.innerHTML =
+      '<div id="r"><a href="/s.png" data-lightbox data-lightbox-title="Review screenshot: Customer Feedback 1">Customer Feedback 1</a></div>'
+    container = document.getElementById('r')!
+    dispose = initLightbox(container)
+    container.querySelector('a')!.click()
+    expect(dialog().querySelector('img')!.alt).toBe(
+      'Review screenshot: Customer Feedback 1',
+    )
+  })
+
   test('modified and non-primary clicks are left to the browser', () => {
     for (const init of [
       { ctrlKey: true },
