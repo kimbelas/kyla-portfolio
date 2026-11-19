@@ -1,0 +1,82 @@
+---
+import type { ImageMetadata } from 'astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import CategoryNav from './CategoryNav.astro'
+import WorkGrid from './WorkGrid.astro'
+import { buildMeta } from '../../lib/seo'
+import { breadcrumbSchema, itemListSchema } from '../../lib/jsonld'
+import type { Category } from '../../lib/collections'
+
+interface Props {
+  current: Category | 'all'
+  heading: string
+  emphasis: string
+  title?: string
+  description: string
+  items: {
+    id: string
+    title: string
+    tag: string
+    alt: string
+    image: ImageMetadata
+  }[]
+  counts: Record<Category | 'all', number>
+}
+
+const { current, heading, emphasis, title, description, items, counts } =
+  Astro.props
+const site = Astro.site!
+const path = current === 'all' ? '/work/' : `/work/${current}/`
+const meta = buildMeta({ title: title ?? 'Portfolio', description, path, site })
+const trail = [
+  { name: 'Home', path: '/' },
+  { name: 'Portfolio', path: '/work/' },
+  ...(current === 'all' ? [] : [{ name: heading, path }]),
+]
+const jsonLd = [
+  breadcrumbSchema(trail, site),
+  itemListSchema(
+    items.map((i) => ({
+      name: i.title,
+      imageUrl: new URL(i.image.src, site).href,
+    })),
+    site,
+    path,
+  ),
+]
+---
+
+<BaseLayout meta={meta} jsonLd={jsonLd}>
+  <div class="mx-auto flex max-w-[1320px] flex-col gap-6 px-3 pt-8 pb-16 min-[641px]:px-6">
+    <nav aria-label="Breadcrumb" class="text-[13px] text-muted">
+      <ol class="m-0 flex list-none gap-2 p-0">
+        <li>
+          <a href="/" class="underline underline-offset-4">
+            Home
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        {current === 'all' ? (
+          <li aria-current="page">Portfolio</li>
+        ) : (
+          <>
+            <li>
+              <a href="/work/" class="underline underline-offset-4">
+                Portfolio
+              </a>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page">{heading}</li>
+          </>
+        )}
+      </ol>
+    </nav>
+    <div class="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-3.5">
+      <h1 class="font-display text-[clamp(40px,4.6vw,64px)] leading-none font-normal">
+        {heading} <em class="text-rose">{emphasis}</em>
+      </h1>
+      <CategoryNav counts={counts} current={current} />
+    </div>
+    <WorkGrid items={items} eagerCount={3} />
+  </div>
+</BaseLayout>

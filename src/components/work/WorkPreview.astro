@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
+import CategoryNav from './CategoryNav.astro'
+import WorkGrid from './WorkGrid.astro'
+import { categoryCounts, homePortfolio } from '../../lib/collections'
+
+const all = (await getCollection('portfolio')).map((p) => p.data)
+const counts = categoryCounts(all)
+const items = homePortfolio(all)
+---
+
+<section
+  id="work"
+  aria-labelledby="work-title"
+  class="mt-10 flex scroll-mt-24 flex-col gap-6"
+>
+  <div class="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-3.5">
+    <SectionHead
+      number="04"
+      eyebrow="Portfolio"
+      title="Selected"
+      emphasis="work"
+      id="work-title"
+    />
+    <CategoryNav counts={counts} />
+  </div>
+  <WorkGrid items={items} />
+  <div class="flex justify-center">
+    <a
+      href="/work/"
+      class="inline-flex min-h-12 items-center rounded-full border border-ink px-7 text-xs tracking-[0.16em] text-ink uppercase"
+    >
+      See all {counts.all} pieces
+    </a>
+  </div>
+</section>

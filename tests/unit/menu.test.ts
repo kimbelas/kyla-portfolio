@@ -175,3 +175,26 @@ describe('initActiveSection', () => {
     expect(links[1].getAttribute('aria-current')).toBe('true')
   })
 })
+
+describe('initMenu with another Escape consumer', () => {
+  test('Escape already handled (defaultPrevented) does not close the menu', () => {
+    open()
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Escape',
+        cancelable: true,
+        bubbles: true,
+      }),
+    )
+    expect(root.open).toBe(false)
+    open()
+    const handled = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      cancelable: true,
+      bubbles: true,
+    })
+    handled.preventDefault()
+    document.dispatchEvent(handled)
+    expect(root.open).toBe(true)
+  })
+})

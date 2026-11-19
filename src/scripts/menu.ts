@@ -47,6 +47,8 @@ export function initMenu(
   const onKeydown = (e: KeyboardEvent) => {
     if (!isOpen()) return
     if (e.key === 'Escape') {
+      // Another layer (the lightbox dialog) already consumed this Escape.
+      if (e.defaultPrevented) return
       close(true)
       return
     }

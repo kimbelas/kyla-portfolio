@@ -1,0 +1,44 @@
+---
+import { CATEGORY_LABELS, type Category } from '../../lib/collections'
+
+interface Props {
+  counts: Record<Category | 'all', number>
+  current?: Category | 'all'
+}
+
+const { counts, current } = Astro.props
+
+const links: { key: Category | 'all'; label: string; href: string }[] = [
+  { key: 'all', label: 'All work', href: '/work/' },
+  ...(Object.keys(CATEGORY_LABELS) as Category[]).map((key) => ({
+    key,
+    label: CATEGORY_LABELS[key],
+    href: `/work/${key}/`,
+  })),
+]
+---
+
+<nav
+  aria-label="Portfolio categories"
+  class="-mx-3 max-w-[100vw] min-w-0 min-[641px]:mx-0 min-[641px]:max-w-none"
+>
+  <ul class="m-0 flex list-none gap-1.5 overflow-x-auto p-0 px-3 py-0.5 min-[641px]:flex-wrap min-[641px]:overflow-visible min-[641px]:px-0">
+    {links.map((l) => (
+      <li class="shrink-0">
+        <a
+          href={l.href}
+          aria-current={current === l.key ? 'page' : undefined}
+          class:list={[
+            'inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3.5 text-[13px] whitespace-nowrap min-[641px]:px-4 min-[641px]:text-sm',
+            current === l.key
+              ? 'border-rose bg-rose text-paper'
+              : 'border-line bg-paper text-ink',
+          ]}
+        >
+          {l.label}
+          <span class="tabular-nums">{counts[l.key]}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

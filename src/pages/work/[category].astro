@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content'
+import WorkPage from '../../components/work/WorkPage.astro'
+import {
+  CATEGORY_LABELS,
+  categoryCounts,
+  type Category,
+} from '../../lib/collections'
+
+export async function getStaticPaths() {
+  const items = (await getCollection('portfolio')).map((p) => p.data)
+  const counts = categoryCounts(items)
+  return (Object.keys(CATEGORY_LABELS) as Category[]).map((category) => ({
+    params: { category },
+    props: {
+      category,
+      counts,
+      items: items.filter((i) => i.category === category),
+    },
+  }))
+}
+
+const { category, counts, items } = Astro.props
+const label = CATEGORY_LABELS[category]
+const n = counts[category]
+---
+
+<WorkPage
+  current={category}
+  heading={label}
+  emphasis="work"
+  title={`${label} work`}
+  description={`${n} ${label} pieces from the portfolio of Kyla Belas, executive virtual assistant and project manager.`}
+  items={items}
+  counts={counts}
+/>
