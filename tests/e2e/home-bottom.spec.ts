@@ -40,7 +40,7 @@ test('feature quote is Tracy Scuteri, verbatim', async ({ page }) => {
   await expect(page.locator('#words [data-feature]')).toContainText(
     'Tracy Scuteri',
   )
-  await expect(page.locator('#words')).toContainText('4.6')
+  await expect(page.locator('#words')).toContainText('4.6 out of 5')
   await expect(page.locator('#words')).toContainText('Jun 29 - Jul 9, 2023')
 })
 
@@ -63,6 +63,10 @@ test('screenshot archive opens with every screenshot', async ({ page }) => {
   await expect(dialog).toBeVisible()
   await expect(dialog.locator('[data-lightbox-count]')).toHaveText(
     `1 / ${shots}`,
+  )
+  await expect(dialog.locator('img')).toHaveAttribute(
+    'alt',
+    /^Review screenshot: \S/,
   )
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()

@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content'
 import SectionHead from '../ui/SectionHead.astro'
-import Icon from '../icons/Icon.astro'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
 const reviews = (await getCollection('reviews')).map((r) => r.data)
@@ -18,6 +17,15 @@ const { upwork } = profile
   class="mt-10 flex scroll-mt-24 flex-col gap-5"
   data-words
 >
+  {!feature && (
+    <SectionHead
+      number="06"
+      eyebrow="Kind words"
+      title="Kind words from clients"
+      id="words-title"
+      srTitle
+    />
+  )}
   {feature && (
     <div
       data-feature
@@ -46,13 +54,9 @@ const { upwork } = profile
       <span class="text-[11px] tracking-[0.2em] text-blush uppercase">
         Upwork · {upwork.job}
       </span>
-      <p class="font-display text-6xl leading-none">{upwork.rating}</p>
-      <p class="flex items-center gap-1 text-blush" aria-hidden="true">
-        <Icon name="star" size={16} />
-        <Icon name="star" size={16} />
-        <Icon name="star" size={16} />
-        <Icon name="star" size={16} />
-        <Icon name="star" size={16} />
+      <p class="font-display text-6xl leading-none">
+        {upwork.rating}{' '}
+        <span class="block pt-2 font-body text-sm text-blush">out of 5</span>
       </p>
       <p class="text-sm text-blush">{upwork.period}</p>
       <a
@@ -93,7 +97,7 @@ const { upwork } = profile
           <a
             href={r.image.src}
             data-lightbox
-            data-lightbox-title={r.title}
+            data-lightbox-title={`Review screenshot: ${r.title}`}
             class="inline-flex min-h-11 items-center text-sm text-ink underline underline-offset-4"
           >
             {r.title}
