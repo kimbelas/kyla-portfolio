@@ -27,6 +27,7 @@ const { items, eagerCount = 0 } = Astro.props
       <a
         href={item.image.src}
         data-lightbox
+        data-lightbox-title={item.title}
         class="block overflow-hidden rounded-[13px] min-[641px]:rounded-2xl"
       >
         <Picture

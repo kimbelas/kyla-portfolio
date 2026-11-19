@@ -57,7 +57,10 @@ test('home preview shows 9 pieces in homeOrder and links to /work/', async ({
   await expect(link).toHaveAttribute('href', '/work/')
 })
 
-test('lightbox opens, steps, and Escape closes only the lightbox', async ({
+// The open mobile menu overlays the page and locks scroll, so a lightbox link cannot
+// be clicked while it is open; the menu/lightbox Escape contract is covered by the
+// unit tests (lightbox Escape is defaultPrevented, menu ignores it).
+test('lightbox opens, steps with arrows, and Escape closes it and restores focus', async ({
   page,
 }) => {
   await page.goto('/work/')

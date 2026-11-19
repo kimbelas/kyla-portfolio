@@ -38,7 +38,7 @@ function build(): Shared {
   const meta = document.createElement('div')
   meta.className = 'flex flex-col items-center gap-1 text-center'
   const title = document.createElement('p')
-  title.setAttribute('data-lightbox-title', '')
+  title.setAttribute('data-lightbox-heading', '')
   title.className = 'font-display text-lg italic'
   const count = document.createElement('p')
   count.setAttribute('data-lightbox-count', '')
@@ -73,7 +73,10 @@ function show(s: Shared, index: number) {
   s.img.src = link.href
   s.img.alt = thumb?.alt ?? ''
   s.title.textContent =
-    link.closest('figure')?.querySelector('figcaption em')?.textContent ?? ''
+    link.dataset.lightboxTitle ||
+    thumb?.alt ||
+    link.getAttribute('aria-label') ||
+    ''
   s.count.textContent = `${i + 1} / ${links.length}`
 }
 
@@ -96,6 +99,10 @@ export function initLightbox(container: HTMLElement): () => void {
   const onClick = (e: Event) => {
     const link = (e.target as Element).closest<HTMLAnchorElement>(SELECTOR)
     if (!link || !container.contains(link)) return
+    // Keep open-in-new-tab and similar modified clicks native.
+    const m = e as MouseEvent
+    if (m.metaKey || m.ctrlKey || m.shiftKey || m.altKey || m.button !== 0)
+      return
     e.preventDefault()
     s.state.links = links()
     s.state.trigger = link

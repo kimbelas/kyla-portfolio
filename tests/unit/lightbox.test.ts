@@ -25,7 +25,7 @@ beforeEach(() => {
   document.body.innerHTML = `<div id="c">${Array.from(
     { length: 9 },
     (_, i) =>
-      `<figure><a href="/img/${i}.webp" data-lightbox><img alt="Piece ${i}" src="/t/${i}.webp"></a><figcaption><em>Title ${i}</em></figcaption></figure>`,
+      `<figure><a href="/img/${i}.webp" data-lightbox data-lightbox-title="Title ${i}"><img alt="Piece ${i}" src="/t/${i}.webp"></a><figcaption><em>Title ${i}</em></figcaption></figure>`,
   ).join('')}</div>`
   container = document.getElementById('c')!
   dispose = initLightbox(container)
@@ -43,7 +43,7 @@ describe('initLightbox', () => {
     const img = dialog().querySelector('img')!
     expect(new URL(img.src).pathname).toBe('/img/2.webp')
     expect(img.alt).toBe('Piece 2')
-    expect(document.querySelector('[data-lightbox-title]')!.textContent).toBe(
+    expect(document.querySelector('[data-lightbox-heading]')!.textContent).toBe(
       'Title 2',
     )
   })
@@ -86,5 +86,37 @@ describe('initLightbox', () => {
     dispose()
     expect(document.querySelectorAll('dialog')).toHaveLength(0)
     dispose = initLightbox(container)
+  })
+
+  test('title falls back to the thumbnail alt without figure markup', () => {
+    dispose()
+    document.body.innerHTML =
+      '<div id="r"><a href="/s.png" data-lightbox><img alt="Screenshot of a review" src="/t.png"></a></div>'
+    container = document.getElementById('r')!
+    dispose = initLightbox(container)
+    container.querySelector('a')!.click()
+    expect(document.querySelector('[data-lightbox-heading]')!.textContent).toBe(
+      'Screenshot of a review',
+    )
+    expect(count()).toBe('1 / 1')
+  })
+
+  test('modified and non-primary clicks are left to the browser', () => {
+    for (const init of [
+      { ctrlKey: true },
+      { metaKey: true },
+      { shiftKey: true },
+      { altKey: true },
+      { button: 1 },
+    ]) {
+      const e = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        ...init,
+      })
+      links()[0]!.dispatchEvent(e)
+      expect(e.defaultPrevented).toBe(false)
+      expect(dialog().open).toBe(false)
+    }
   })
 })
