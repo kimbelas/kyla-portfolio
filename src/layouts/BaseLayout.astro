@@ -9,6 +9,8 @@ import { orderRecordings } from '../lib/collections'
 import { serializeJsonLd } from '../lib/jsonld'
 import type { TrackData } from '../scripts/player'
 import '../styles/global.css'
+import manropeUrl from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url'
+import bodoniUrl from '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-wght-normal.woff2?url'
 
 interface Props {
   meta: Meta
@@ -32,6 +34,21 @@ const tracks: TrackData[] = orderRecordings(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {/* Preload the two above-the-fold fonts so the first layout uses them (no swap relayout). */}
+    <link
+      rel="preload"
+      href={manropeUrl}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={bodoniUrl}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <Seo meta={meta} />
     {jsonLd.map((data) => (
       <JsonLd data={data} />
