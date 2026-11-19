@@ -1,12 +1,12 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
+import { resolveSite } from './scripts/site-url.mjs'
 
-const site = process.env.SITE_URL
-
-if (process.argv.includes('build') && !site) {
-  throw new Error('SITE_URL is required for builds')
-}
+const site = resolveSite({
+  command: process.argv.includes('build') ? 'build' : 'dev',
+  root: process.cwd(),
+})
 
 export default defineConfig({
   site,

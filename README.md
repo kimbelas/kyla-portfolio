@@ -104,10 +104,12 @@ approved, the FAQ section and its search engine data appear automatically.
 
 | Name                  | Required | Value                                                                     |
 | --------------------- | -------- | ------------------------------------------------------------------------- |
-| `SITE_URL`            | Yes      | `https://kyla-belas.pages.dev/` (change only if a custom domain is added) |
+| `SITE_URL`            | Builds   | `https://kyla-belas.pages.dev/` (change only if a custom domain is added) |
 | `PUBLIC_FORMSPREE_ID` | No       | The form ID from Formspree (the part after `/f/` in the form's endpoint)  |
 
-- **On your computer:** copy `.env.example` to a new file named `.env` and fill in the values.
+- **On your computer:** copy `.env.example` to a new file named `.env` and fill in the values. Both
+  `npm run dev` and `npm run build` read `.env`. A build stops with "SITE_URL is required for builds" when
+  `SITE_URL` is missing; `npm run dev` works without it and uses `http://localhost:4321` instead.
 - **On Cloudflare Pages:** set them in the Pages project under Settings, Variables and Secrets (see
   [Deploy](#deploy)), then redeploy.
 
@@ -117,7 +119,8 @@ approved, the FAQ section and its search engine data appear automatically.
 npm run dev
 ```
 
-Then open http://localhost:4321/ in a browser. Changes to content files show up when you save.
+Then open http://localhost:4321/ in a browser. No `.env` is needed for this. Changes to content files show
+up when you save.
 
 ## Test
 
