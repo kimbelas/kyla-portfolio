@@ -12,6 +12,7 @@ import WorkPreview from '../components/work/WorkPreview.astro'
 import Experience from '../components/home/Experience.astro'
 import KindWords from '../components/home/KindWords.astro'
 import Faq from '../components/home/Faq.astro'
+import Contact from '../components/home/Contact.astro'
 import portrait from '../assets/images/profile/kyla.webp'
 import { buildMeta } from '../lib/seo'
 import {
@@ -53,5 +54,6 @@ const jsonLd = [
     <Experience />
     <KindWords />
     <Faq items={faqs} />
+    <Contact />
   </div>
 </BaseLayout>

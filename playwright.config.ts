@@ -9,7 +9,10 @@ export default defineConfig({
     command: 'npm run build && npm run preview',
     url: 'http://localhost:4321',
     reuseExistingServer: !process.env.CI,
-    env: { SITE_URL: 'http://localhost:4321' },
+    env: {
+      SITE_URL: 'http://localhost:4321',
+      PUBLIC_FORMSPREE_ID: 'test123',
+    },
   },
   projects: [
     {

@@ -1,0 +1,166 @@
+---
+import { getEntry } from 'astro:content'
+import SectionHead from '../ui/SectionHead.astro'
+import Icon from '../icons/Icon.astro'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const email = profile.email
+const formspreeId = (import.meta.env.PUBLIC_FORMSPREE_ID ?? '').trim()
+const action = formspreeId
+  ? `https://formspree.io/f/${formspreeId}`
+  : `mailto:${email}`
+
+const sent = 'Thank you! Your message is on its way. I’ll get back to you soon.'
+const mailto = `Your email app should open with the message ready to send. If it didn’t, copy ${email} and write to me directly.`
+const error = `The message couldn’t be sent. Please try again, or email ${email} directly.`
+
+const pills = [
+  { label: 'LinkedIn', href: profile.links.linkedin },
+  { label: 'Upwork', href: profile.links.upwork },
+  { label: 'OnlineJobs.ph', href: profile.links.onlinejobs },
+  { label: 'Drive portfolio', href: profile.links.drive },
+]
+
+const field =
+  'border-0 border-b border-ink bg-transparent py-2.5 text-base normal-case tracking-normal text-ink'
+const label =
+  'flex flex-1 basis-[200px] flex-col gap-1.5 text-[11px] tracking-[0.16em] text-muted-warm uppercase'
+---
+
+<section
+  id="contact"
+  aria-labelledby="contact-title"
+  data-contact
+  class="mt-10 flex scroll-mt-24 flex-wrap gap-12 rounded-[32px] border border-line bg-paper p-7 min-[641px]:p-[clamp(28px,4vw,64px)]"
+>
+  <div class="flex min-w-0 flex-[1_1_380px] flex-col gap-[22px]">
+    <SectionHead
+      number="07"
+      eyebrow="Contact"
+      title="Let’s build something that"
+      emphasis="runs smoothly"
+      id="contact-title"
+    />
+    <p class="text-muted-warm">{profile.contact.text}</p>
+    <div class="flex flex-wrap items-center gap-2">
+      <a
+        href={`mailto:${email}`}
+        class="inline-flex min-h-11 max-w-full items-center gap-2 [overflow-wrap:anywhere] rounded-[18px] bg-blush px-5 py-3.5 font-display text-[clamp(20px,2.2vw,28px)] text-ink"
+      >
+        <Icon name="mail" />
+        {email}
+      </a>
+      <button
+        type="button"
+        data-copy={email}
+        aria-label="Copy email address"
+        class="inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-line text-ink"
+      >
+        <Icon name="copy" />
+      </button>
+      <span
+        data-copy-status
+        role="status"
+        class="min-w-16 text-[13px] text-rose-strong"
+      ></span>
+    </div>
+    <ul class="flex flex-wrap gap-2">
+      {pills.map((p) => (
+        <li>
+          <a
+            href={p.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-line px-[18px] text-ink"
+          >
+            {p.label}
+            <Icon name="arrow-up-right" size={14} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <form
+    method="post"
+    action={action}
+    enctype={formspreeId ? undefined : 'text/plain'}
+    data-formspree-id={formspreeId}
+    data-to={email}
+    class="flex min-w-0 flex-[1_1_440px] flex-col gap-5 rounded-3xl bg-blush p-7"
+  >
+    <p class="font-script text-[52px] leading-none text-rose">Say hello</p>
+    <div class="flex flex-wrap gap-5">
+      <label class={label}>
+        Your name
+        <input
+          type="text"
+          name="name"
+          required
+          maxlength="100"
+          autocomplete="name"
+          class={field}
+        />
+      </label>
+      <label class={label}>
+        Email address
+        <input
+          type="email"
+          name="email"
+          required
+          maxlength="254"
+          autocomplete="email"
+          class={field}
+        />
+      </label>
+    </div>
+    <label class={label}>
+      Company (optional)
+      <input
+        type="text"
+        name="company"
+        maxlength="120"
+        autocomplete="organization"
+        class={field}
+      />
+    </label>
+    <label class={label}>
+      How can I help?
+      <textarea
+        name="message"
+        rows="4"
+        required
+        minlength="10"
+        maxlength="5000"
+        class:list={[field, 'resize-y']}
+      ></textarea>
+    </label>
+    <div class="sr-only" aria-hidden="true">
+      <label>
+        Leave this field empty
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+    <button
+      type="submit"
+      class="min-h-[52px] cursor-pointer self-start rounded-full bg-rose px-[30px] text-xs tracking-[0.16em] text-paper uppercase disabled:opacity-60"
+    >
+      Send message
+    </button>
+    <p
+      role="status"
+      data-status
+      data-sent={sent}
+      data-mailto={mailto}
+      data-error={error}
+      class="text-sm text-ink data-[state=error]:text-rose-strong"
+    ></p>
+  </form>
+</section>
+
+<script>
+  import { initContact } from '../../scripts/contact'
+
+  document
+    .querySelectorAll<HTMLFormElement>('[data-contact] form')
+    .forEach((form) => initContact(form))
+</script>
