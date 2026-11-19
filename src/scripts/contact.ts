@@ -106,6 +106,13 @@ export function initContact(form: HTMLFormElement): void {
   const formspreeId = form.dataset.formspreeId ?? ''
   const to = form.dataset.to ?? ''
 
+  form.addEventListener('input', (event) => {
+    const el = event.target
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      el.setCustomValidity('')
+    }
+  })
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault()
     if (button) button.disabled = true

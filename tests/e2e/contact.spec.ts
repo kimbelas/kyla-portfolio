@@ -48,6 +48,19 @@ test('success message after Formspree 200', async ({ page }) => {
   )
 })
 
+test('recovers after a whitespace-only name is corrected', async ({ page }) => {
+  await mockFormspree(page, 200)
+  await page.goto('/')
+  const form = await fill(page)
+  await form.locator('[name=name]').fill('   ')
+  const send = form.getByRole('button', { name: 'Send message' })
+  await send.click()
+  await expect(form.getByRole('status')).toHaveText('')
+  await form.locator('[name=name]').fill('Ann Lee')
+  await send.click()
+  await expect(form.getByRole('status')).toContainText('Thank you!')
+})
+
 test('error message after Formspree 429', async ({ page }) => {
   await mockFormspree(page, 429)
   await page.goto('/')
