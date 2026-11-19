@@ -13,6 +13,8 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory', inlineStylesheets: 'never' },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/404') }),
+  ],
   vite: { plugins: [tailwindcss()] },
 })
