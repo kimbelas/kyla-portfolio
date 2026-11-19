@@ -164,9 +164,11 @@ The build also writes `dist/_headers`, which sets the security headers Cloudflar
 
 ### From your computer
 
+This is how the live site is deployed today (the Pages project is not linked to GitHub, so pushes do not
+deploy on their own). With `SITE_URL` set in `.env`, one command builds and uploads:
+
 ```sh
-SITE_URL=https://kyla-belas.pages.dev/ npm run build
-npx wrangler pages deploy dist
+npm run deploy
 ```
 
 The project name and output folder come from `wrangler.toml`. Wrangler asks you to log in to Cloudflare
