@@ -48,3 +48,23 @@ export function homePortfolio<T extends { homeOrder?: number }>(
     .sort((a, b) => a.homeOrder - b.homeOrder)
     .slice(0, 9)
 }
+
+const MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')
+
+/** Sort key for a period string: the latest "Mon YYYY" or "YYYY" it mentions. */
+function latestMonth(period: string): number {
+  let best = 0
+  for (const m of period.matchAll(
+    /(?:\b([A-Z][a-z]{2}) )?\b((?:19|20)\d{2})\b/g,
+  )) {
+    const month = m[1] ? MONTHS.indexOf(m[1]) : 11
+    best = Math.max(best, Number(m[2]) * 12 + Math.max(month, 0))
+  }
+  return best
+}
+
+export function orderExperience<T extends { period: string }>(items: T[]): T[] {
+  return [...items].sort(
+    (a, b) => latestMonth(b.period) - latestMonth(a.period),
+  )
+}

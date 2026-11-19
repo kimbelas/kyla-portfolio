@@ -1,0 +1,44 @@
+---
+import SectionHead from '../ui/SectionHead.astro'
+
+interface Entry {
+  id: string
+  question: string
+  answer: string
+}
+
+interface Props {
+  items: Entry[]
+}
+
+const { items } = Astro.props
+---
+
+{items.length > 0 && (
+  <section
+    id="faq"
+    aria-labelledby="faq-title"
+    class="mt-10 flex scroll-mt-24 flex-col gap-5"
+  >
+    <SectionHead
+      eyebrow="FAQ"
+      title="Questions,"
+      emphasis="answered"
+      id="faq-title"
+      class="border-b border-ink pb-3.5"
+    />
+    <div class="flex flex-col gap-3">
+      {items.map((f) => (
+        <details class="group rounded-[22px] border border-line bg-paper px-6 py-1">
+          <summary class="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-xl">
+            {f.question}
+            <span aria-hidden="true" class="text-rose group-open:rotate-45">
+              +
+            </span>
+          </summary>
+          <p class="pb-4 text-muted-warm">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+)}

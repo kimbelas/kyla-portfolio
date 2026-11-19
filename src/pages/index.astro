@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content'
+import { getCollection, getEntry } from 'astro:content'
 import { getImage } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Hero from '../components/home/Hero.astro'
@@ -9,11 +9,22 @@ import About from '../components/home/About.astro'
 import Expertise from '../components/home/Expertise.astro'
 import CallsSection from '../components/calls/CallsSection.astro'
 import WorkPreview from '../components/work/WorkPreview.astro'
+import Experience from '../components/home/Experience.astro'
+import KindWords from '../components/home/KindWords.astro'
+import Faq from '../components/home/Faq.astro'
 import portrait from '../assets/images/profile/kyla.webp'
 import { buildMeta } from '../lib/seo'
-import { personSchema, profilePageSchema, websiteSchema } from '../lib/jsonld'
+import {
+  faqPageSchema,
+  personSchema,
+  profilePageSchema,
+  websiteSchema,
+} from '../lib/jsonld'
 
 const profile = (await getEntry('profile', 'kyla'))!.data
+const faqs = (await getCollection('faq'))
+  .map((f) => f.data)
+  .filter((f) => f.approved)
 const site = Astro.site!
 const image = await getImage({ src: portrait, width: 720, format: 'webp' })
 const meta = buildMeta({
@@ -26,6 +37,7 @@ const jsonLd = [
   websiteSchema(site),
   profilePageSchema(site),
   personSchema(profile, site, new URL(image.src, site).href),
+  ...(faqs.length > 0 ? [faqPageSchema(faqs)] : []),
 ]
 ---
 
@@ -38,5 +50,8 @@ const jsonLd = [
     <Expertise />
     <CallsSection />
     <WorkPreview />
+    <Experience />
+    <KindWords />
+    <Faq items={faqs} />
   </div>
 </BaseLayout>

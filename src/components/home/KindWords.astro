@@ -1,0 +1,104 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import Icon from '../icons/Icon.astro'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const reviews = (await getCollection('reviews')).map((r) => r.data)
+const feature = reviews.find((r) => r.home === 'feature')
+const cards = reviews.filter((r) => r.home === 'card')
+const { upwork } = profile
+---
+
+<section
+  id="words"
+  aria-labelledby="words-title"
+  class="mt-10 flex scroll-mt-24 flex-col gap-5"
+  data-words
+>
+  {feature && (
+    <div
+      data-feature
+      class="rounded-[32px] bg-blush p-8 text-center min-[641px]:p-14 min-[1101px]:p-20"
+    >
+      <p class="text-[11px] tracking-[0.2em] text-rose uppercase">
+        06 · Kind words
+      </p>
+      <h2 id="words-title" class="sr-only">
+        Kind words from clients
+      </h2>
+      <blockquote class="mx-auto mt-6 max-w-[34ch] font-display text-[clamp(26px,3vw,40px)] leading-[1.25]">
+        {`\u201c${feature.quote}\u201d`}
+      </blockquote>
+      <p class="mt-6 font-script text-5xl leading-none text-rose">
+        {feature.name}
+      </p>
+      <p class="mt-1 text-[11px] tracking-[0.18em] text-muted uppercase">
+        {feature.context}
+      </p>
+    </div>
+  )}
+  <div class="grid grid-cols-1 gap-5 min-[641px]:grid-cols-2 min-[1101px]:grid-cols-4">
+    <div class="flex flex-col gap-2 rounded-[28px] bg-rose-strong p-7 text-paper">
+      <span class="text-[11px] tracking-[0.2em] text-blush uppercase">
+        Upwork · {upwork.job}
+      </span>
+      <p class="font-display text-6xl leading-none">{upwork.rating}</p>
+      <p class="flex items-center gap-1 text-blush" aria-hidden="true">
+        <Icon name="star" size={16} />
+        <Icon name="star" size={16} />
+        <Icon name="star" size={16} />
+        <Icon name="star" size={16} />
+        <Icon name="star" size={16} />
+      </p>
+      <p class="text-sm text-blush">{upwork.period}</p>
+      <a
+        href={profile.links.upwork}
+        rel="noopener"
+        class="mt-auto inline-flex min-h-11 items-center text-paper underline underline-offset-4"
+      >
+        View Upwork profile
+      </a>
+    </div>
+    {cards.map((q) => (
+      <figure
+        data-review-card
+        class="flex flex-col gap-4 rounded-[28px] border border-line bg-paper p-7"
+      >
+        <blockquote class="font-display text-xl leading-[1.4]">
+          {`\u201c${q.quote}\u201d`}
+        </blockquote>
+        <figcaption class="mt-auto">
+          <span class="block font-script text-4xl leading-[1.1] text-rose">
+            {q.name}
+          </span>
+          <span class="text-xs text-muted">{q.context}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <div data-archive class="flex justify-center">
+    {reviews.map((r, i) => (
+      <a
+        href={r.image.src}
+        data-lightbox
+        data-lightbox-title={r.title}
+        hidden={i > 0}
+        class={
+          i === 0
+            ? 'inline-flex min-h-12 items-center rounded-full border border-ink px-7 text-xs tracking-[0.16em] text-ink uppercase'
+            : undefined
+        }
+      >
+        {i === 0 ? `See all ${reviews.length} original screenshots` : r.title}
+      </a>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { initLightbox } from '../../scripts/lightbox'
+
+  document
+    .querySelectorAll<HTMLElement>('[data-archive]')
+    .forEach((el) => initLightbox(el))
+</script>

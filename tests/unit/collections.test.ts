@@ -4,6 +4,7 @@ import {
   formatDuration,
   homePortfolio,
   isoDuration,
+  orderExperience,
   orderRecordings,
   CATEGORY_LABELS,
 } from '../../src/lib/collections'
@@ -74,5 +75,28 @@ describe('collections helpers', () => {
       marketing: 'Marketing',
       growth: 'Business records',
     })
+  })
+})
+
+describe('orderExperience', () => {
+  test('sorts newest first by the latest date in each period', () => {
+    const periods = [
+      '2014 - 2018',
+      'Jan 2024 - Aug 2024',
+      'Aug 2024 - Mar 2025 · Jul 2025 - Sep 2026',
+      'Jun 2023 - Jan 2024',
+      '2018 & 2019 summer terms',
+    ]
+    expect(
+      orderExperience(periods.map((period) => ({ period }))).map(
+        (r) => r.period,
+      ),
+    ).toEqual([
+      'Aug 2024 - Mar 2025 · Jul 2025 - Sep 2026',
+      'Jan 2024 - Aug 2024',
+      'Jun 2023 - Jan 2024',
+      '2018 & 2019 summer terms',
+      '2014 - 2018',
+    ])
   })
 })

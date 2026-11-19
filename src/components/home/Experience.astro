@@ -1,0 +1,74 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import { orderExperience } from '../../lib/collections'
+
+const profile = (await getEntry('profile', 'kyla'))!.data
+const metrics = (await getCollection('metrics')).map((m) => m.data)
+const roles = orderExperience(
+  (await getCollection('experience')).map((e) => e.data),
+)
+const clients = (await getCollection('clients')).map((c) => c.data)
+
+const fmt = (m: (typeof metrics)[number], v: number) =>
+  `${m.prefix}${v.toFixed(m.decimals)}${m.suffix}`
+---
+
+<section
+  id="experience"
+  aria-labelledby="experience-title"
+  class="mt-10 scroll-mt-24 rounded-[32px] bg-ink p-7 text-ivory min-[641px]:p-12 min-[1101px]:p-16"
+>
+  <p class="text-[11px] tracking-[0.2em] text-petal uppercase">
+    05 · Experience
+  </p>
+  <h2
+    id="experience-title"
+    class="mt-3 font-display text-[clamp(34px,4.2vw,58px)] leading-[1.04] font-normal"
+  >
+    {profile.growth.heading}
+  </h2>
+  <p class="mt-3.5 text-sm text-on-dark-muted">{profile.growth.note}</p>
+  <div class="mt-9 grid grid-cols-1 gap-4 min-[641px]:grid-cols-3">
+    {metrics.map((m) => (
+      <div class="rounded-[22px] bg-surface-dark p-6">
+        <p class="text-[11px] tracking-[0.18em] text-on-dark-muted uppercase">
+          {m.label}
+        </p>
+        <p class="mt-2.5 font-display text-5xl leading-none text-petal">
+          {fmt(m, m.after)}
+        </p>
+        <p class="mt-2 text-sm text-on-dark-muted">
+          from {fmt(m, m.before)} in July 2025
+        </p>
+      </div>
+    ))}
+  </div>
+  <ol class="mt-12 list-none">
+    {roles.map((r) => (
+      <li
+        data-role
+        class="grid grid-cols-1 gap-x-8 gap-y-1.5 border-t border-[#4a3a3e] py-5 min-[900px]:grid-cols-3"
+      >
+        <span class="text-sm text-on-dark-muted tabular-nums">{r.period}</span>
+        <span class="font-display text-[22px] leading-tight">{r.role}</span>
+        <span class="text-petal">{r.company}</span>
+      </li>
+    ))}
+  </ol>
+  <h3 class="mt-10 font-display text-2xl font-normal">
+    Project-based <em class="text-petal">clients</em>
+  </h3>
+  <ul class="mt-4 list-none">
+    {clients.map((c) => (
+      <li
+        data-client
+        class="grid grid-cols-1 gap-x-8 gap-y-1 border-t border-[#4a3a3e] py-4 text-sm min-[900px]:grid-cols-[1.1fr_1.4fr_0.9fr_2fr]"
+      >
+        <span class="text-petal">{c.name}</span>
+        <span class="text-on-dark-muted">{c.place}</span>
+        <span>{c.role}</span>
+        <span class="text-on-dark-muted">{c.work}</span>
+      </li>
+    ))}
+  </ul>
+</section>
