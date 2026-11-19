@@ -1,3 +1,5 @@
+import { CATEGORY_LABELS, type Category } from './collections'
+
 type LlmsProfile = {
   intro: string
   email: string
@@ -39,4 +41,47 @@ export function buildLlmsTxt(input: {
       `## Contact\n\n- Email: ${profile.email}`,
     ].join('\n\n') + '\n'
   )
+}
+
+type LlmsPage = { title: string; path: string; summary: string }
+
+const firstSentence = (text: string) =>
+  text.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? text
+
+/** The page list for llms.txt, with every count and phrase taken from content. */
+export function llmsPages(input: {
+  title: string
+  recordingsIntro: string
+  counts: Record<Category | 'all', number>
+  recordings: { title: string; featured: boolean }[]
+}): LlmsPage[] {
+  const { title, recordingsIntro, counts, recordings } = input
+  const featured = recordings.find((r) => r.featured)
+  const calls = recordings.length - (featured ? 1 : 0)
+  const callsText = `${calls} call recording${calls === 1 ? '' : 's'}`
+  const featuredText = featured ? ` plus a ${featured.title.toLowerCase()}` : ''
+  return [
+    {
+      title: 'Home',
+      path: '/',
+      summary: `${title}. Experience, reviews, tools and contact.`,
+    },
+    {
+      title: 'Portfolio',
+      path: '/work/',
+      summary: `All ${counts.all} pieces of work. Each category has its own page, listed below.`,
+    },
+    ...(Object.entries(CATEGORY_LABELS) as [Category, string][]).map(
+      ([key, label]) => ({
+        title: label,
+        path: `/work/${key}/`,
+        summary: `${counts[key]} ${label} pieces.`,
+      }),
+    ),
+    {
+      title: 'Call recordings',
+      path: '/calls/',
+      summary: `${callsText}${featuredText}. ${firstSentence(recordingsIntro)}`,
+    },
+  ]
 }
