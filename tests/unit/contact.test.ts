@@ -63,11 +63,12 @@ describe('submitContact', () => {
   })
 
   test('whitespace-only name or short trimmed message is invalid', async () => {
-    for (const over of [
+    const cases: Record<string, string>[] = [
       { name: '   ' },
       { message: '            ' },
       { message: '  short     ' },
-    ]) {
+    ]
+    for (const over of cases) {
       const d = deps()
       expect(await submitContact(makeForm(over), d)).toBe('invalid')
       expect(d.fetch).not.toHaveBeenCalled()
